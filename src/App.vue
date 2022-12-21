@@ -1,5 +1,5 @@
 <template>
-  <FormList></FormList>
+  <FormList> </FormList>
 </template>
 
 <script setup>
