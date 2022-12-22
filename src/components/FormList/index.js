@@ -31,7 +31,7 @@ export const selectConfig = [
   },
 ];
 
-export const setFormConfig = {
+export const setFormConfig = Object.freeze({
   // 年假
   0: [
     {
@@ -54,15 +54,6 @@ export const setFormConfig = {
         unlinkPanels: true,
       },
       val: null,
-
-      // rule: [
-      //   {
-      //     required: true,
-      //     message: "Please input Activity name",
-      //     trigger: "blur",
-      //   },
-      //   { min: 3, max: 5, message: "Length should be 3 to 5", trigger: "blur" },
-      // ],
     },
     {
       name: "url",
@@ -73,7 +64,6 @@ export const setFormConfig = {
       rule: [rules.IsEmpty, rules.URL, rules.LowerCase],
       val: null,
     },
-
     {
       name: "notes",
       type: "input",
@@ -123,20 +113,34 @@ export const setFormConfig = {
 
       val: null,
     },
+    // {
+    //   name: "score",
+    //   type: "rate",
+    //   title: "评分",
+    //   prompt_msg: "",
+    //   defultProps: {
+    //     colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
+    //     size: "small",
+    //     allowHalf: true,
+    //     texts: ["oops", "disappointed", "normal", "good", "great"],
+    //     showText: true,
+    //     max: 5,
+    //     lowThreshold: 2,
+    //   },
+    //   val: null,
+    // },
     {
       name: "score",
       type: "rate",
       title: "评分",
       prompt_msg: "",
-      defultProps: {
-        colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
-        size: "small",
-        allowHalf: true,
-        texts: ["oops", "disappointed", "normal", "good", "great"],
-        showText: true,
-        max: 5,
-        lowThreshold: 2,
-      },
+      colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
+      size: "small",
+      allowHalf: true,
+      texts: ["oops", "disappointed", "normal", "good", "great"],
+      showText: true,
+      max: 5,
+      lowThreshold: 2,
       val: null,
     },
     {
@@ -150,6 +154,63 @@ export const setFormConfig = {
         step: 2,
         precision: 2, //精度
         position: "right",
+      },
+      val: null,
+    },
+    {
+      name: "select",
+      type: "select",
+      title: "选择器",
+      prompt_msg: "请选择",
+      defultProps: {
+        slot: "",
+        // disabled: false,
+        clearable: true,
+        multiple: true, //多选
+        collapseTags: true, //合并为一段文字
+        collapseTagsTooltip: true, //鼠标悬停折叠文字以显示具体所选值
+        options: [
+          {
+            value: "Option1",
+            label: "Option1",
+          },
+          {
+            value: "Option2",
+            label: "Option2",
+            disabled: true,
+          },
+        ],
+      },
+      val: null,
+    },
+    {
+      name: "slider",
+      type: "slider",
+      title: "滑块",
+      prompt_msg: "请选择",
+      defultProps: {
+        step: 5,
+        showInput: false,
+        showStops: true,
+        range: true, //范围选择
+        debounce: 500,
+        placement: "top", //top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end
+        marks: {
+          0: "0°C",
+          8: "8°C",
+          37: "37°C",
+          50: {
+            style: {
+              color: "#1989FA",
+            },
+            label: "50%",
+          },
+        },
+        // disabled: false,
+        clearable: true,
+        multiple: true, //多选
+        collapseTags: true, //合并为一段文字
+        collapseTagsTooltip: true, //鼠标悬停折叠文字以显示具体所选值
       },
       val: null,
     },
@@ -271,7 +332,7 @@ export const setFormConfig = {
       val: null,
     },
   ],
-};
+});
 
 export const getRules = (currentIndex) => {
   let rules = [];
