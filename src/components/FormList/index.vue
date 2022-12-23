@@ -50,15 +50,16 @@
             :unlink-panels="item.defultProps.unlinkPanels"
           />
           <!-- 输入框 -->
+
           <el-input
             v-if="item.type === 'input'"
             v-model="formLabelAlign[item.name]"
-            :autosize="item.defultProps.autosize"
-            :type="item.defultProps.type"
-            :disabled="item.defultProps.disabled"
-            :clearable="item.defultProps.clearable"
+            :autosize="item.autosize"
+            :type="item.inputType"
+            :disabled="item.disabled"
+            :clearable="item.clearable"
             :placeholder="item.prompt_msg"
-            :show-password="item.defultProps.type === 'password' ? true : false"
+            :show-password="item.inputType === 'password' ? true : false"
           >
           </el-input>
           <!-- 单选 -->

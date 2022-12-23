@@ -13,6 +13,19 @@
           v-model="item.value"
         />
         <el-input v-if="Array.isArray(item.value)" v-model="item.value" />
+        <el-select
+          v-if="item.label === 'rule'"
+          v-model="item.value"
+          multiple
+          style="width: 240px"
+        >
+          <el-option
+            v-for="item in ruleOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
         <el-switch
           v-if="typeof item.value === 'boolean'"
           v-model="item.value"
@@ -31,8 +44,6 @@
           v-model="item.value[index]"
           show-alpha
         />
-
-        <!-- <el-input v-model="labelLists[index]" placeholder="Please input" /> -->
       </el-form-item>
     </el-form>
     <div class="btn-wrapper">
@@ -44,8 +55,15 @@
     <el-dialog v-model="dialogTableVisible" title="预览">
       <div class="dialog-content">
         <div class="preview">
-          <el-form>
-            <el-form-item :label="confirmConfig.title">
+          <el-form
+            ref="previewForm"
+            :model="confirmConfig"
+            :rules="rulesPreviewList"
+          >
+            <el-form-item
+              :label="confirmConfig.title"
+              :prop="confirmConfig.name"
+            >
               <el-rate
                 v-if="confirmConfig.type === 'rate'"
                 :colors="confirmConfig.colors"
@@ -55,6 +73,18 @@
                 :texts="confirmConfig.texts"
                 :max="confirmConfig.max"
                 :low-threshold="confirmConfig.lowThreshold"
+              />
+              <el-input
+                v-if="confirmConfig.type === 'input'"
+                v-model="confirmConfig[confirmConfig.name]"
+                :autosize="confirmConfig.autosize"
+                :type="confirmConfig.inputType"
+                :disabled="confirmConfig.disabled"
+                :clearable="confirmConfig.clearable"
+                :placeholder="confirmConfig.prompt_msg"
+                :show-password="
+                  confirmConfig.inputType === 'password' ? true : false
+                "
               />
             </el-form-item>
           </el-form>
@@ -70,85 +100,50 @@
 <script setup>
 import { reactive, ref, watch, toRaw } from "vue";
 import { typeTest, getObjKeys } from "@/utils/utils";
+import { rules } from "../FormList/rules";
 const dialogTableVisible = ref(false);
 const props = defineProps({
   currentForm: Object,
 });
+const ruleOptions = ref([]);
 let configList = ref([]);
 let configForm = reactive({});
 const configState = ref(false);
 let labelLists = reactive({});
 let confirmConfig = ref(null);
 
+const ruleToRuleOpt = (rules) => {
+  let ruleRes = [];
+  Object.keys(rules).forEach((key) => {
+    ruleRes.push({ label: key, value: key });
+  });
+  console.log("ruleRes");
+  return ruleRes;
+};
+
+const RuleOptToRule = (ruleArr) => {
+  let res = [];
+  ruleArr.forEach((item) => {
+    res.push(rules[item]);
+  });
+  console.log("actRules", res);
+  return res;
+};
+
 const showConfig = (e) => {
   configState.value = true;
-  switch (e.type) {
-    case "rate":
-      configList.value = ObjectToArr(e);
-
-      // configList.value = [
-      //   {
-      //     label: "name",
-      //     value: "score",
-      //   },
-      //   {
-      //     label: "type",
-      //     value: "rate",
-      //   },
-      //   {
-      //     label: "title",
-      //     value: "评分",
-      //   },
-      //   {
-      //     label: "prompt_msg",
-      //     value: "",
-      //   },
-      //   {
-      //     label: "colors",
-      //     value: ["#99A9BF", "#F7BA2A", "#FF9900"],
-      //   },
-      //   {
-      //     label: "rule",
-      //     value: [],
-      //   },
-      //   {
-      //     label: "size",
-      //     value: "small",
-      //   },
-      //   {
-      //     label: "allowHalf",
-      //     value: "true",
-      //   },
-      //   {
-      //     label: "texts",
-      //     value: ["oops", "disappointed", "normal", "good", "great"],
-      //   },
-      //   {
-      //     label: "showText",
-      //     value: "true",
-      //   },
-      //   {
-      //     label: "max",
-      //     value: "5",
-      //   },
-      //   {
-      //     label: "lowThreshold",
-      //     value: "2",
-      //   },
-      //   {
-      //     label: "val",
-      //     value: "null",
-      //   },
-      // ];
-
-      // console.log("getObjKeys", getObjKeys(configList));
-      // setLabel(configList);
-      // configLists = configList;
-      break;
-    default:
-      configList = null;
-      break;
-  }
+  configList.value = ObjectToArr(e);
+  // switch (e.type) {
+  //   case "rate":
+  //     configList.value = ObjectToArr(e);
+  //     break;
+  //   case "input":
+  //     configList.value = ObjectToArr(e);
+  //     break;
+  //   default:
+  //     configList = null;
+  //     break;
+  // }
 };
 const determine = (e) => {
   console.log("currentForm", toRaw(props.currentForm));
@@ -238,12 +233,19 @@ const setLabel = (list) => {
   labelLists = labelList;
   console.log("labelList", labelList);
 };
+// const rulesPreviewList = reactive({});
+let rulesPreviewList = ref({});
 const preview = () => {
   dialogTableVisible.value = true;
 
   confirmConfig.value = viewToConfig(configList.value);
+  confirmConfig.value.rule = RuleOptToRule(confirmConfig.value.rule);
+
+  rulesPreviewList.value[confirmConfig.value.name] = confirmConfig.value.rule;
+  console.log("rulesPreviewList", rulesPreviewList.value);
   console.log("confirmConfig", confirmConfig.value);
 };
+
 const viewToConfig = (arr) => {
   let config = {};
   arr.forEach((item) => {
@@ -263,11 +265,13 @@ const ObjectToArr = (obj) => {
   });
   return arr;
 };
+
 watch(
   () => props.currentForm,
   (newValue) => {
     console.log("newValue", toRaw(newValue));
     showConfig(toRaw(newValue));
+    ruleOptions.value = ruleToRuleOpt(rules);
   },
   {
     immediate: false, // 立即执行

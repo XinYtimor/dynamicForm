@@ -56,24 +56,29 @@ export const setFormConfig = Object.freeze({
       val: null,
     },
     {
+      name: "password",
+      type: "input",
+      title: "密码",
+      prompt_msg: "请输入密码",
+      inputType: "password",
+      rule: [rules.IsEmpty],
+      val: null,
+    },
+    {
       name: "url",
       type: "input",
       title: "网址",
       prompt_msg: "请输入网址",
-      defultProps: {},
-      rule: [rules.IsEmpty, rules.URL, rules.LowerCase],
+      rule: [],
       val: null,
     },
     {
       name: "notes",
       type: "input",
-      title: "请假事由（必填）：",
-      prompt_msg: "请输入请假事由",
-      defultProps: {
-        autosize: { minRows: 2, maxRows: 4 },
-        type: "textarea",
-      },
-
+      title: "多行输入",
+      prompt_msg: "请输入内容",
+      autosize: { minRows: 2, maxRows: 4 },
+      type: "textarea",
       val: null,
     },
     {
@@ -113,22 +118,7 @@ export const setFormConfig = Object.freeze({
 
       val: null,
     },
-    // {
-    //   name: "score",
-    //   type: "rate",
-    //   title: "评分",
-    //   prompt_msg: "",
-    //   defultProps: {
-    //     colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
-    //     size: "small",
-    //     allowHalf: true,
-    //     texts: ["oops", "disappointed", "normal", "good", "great"],
-    //     showText: true,
-    //     max: 5,
-    //     lowThreshold: 2,
-    //   },
-    //   val: null,
-    // },
+
     {
       name: "score",
       type: "rate",
@@ -335,9 +325,10 @@ export const setFormConfig = Object.freeze({
 });
 
 export const getRules = (currentIndex) => {
-  let rules = [];
+  let rules = {};
   setFormConfig[currentIndex].forEach((item) => {
     rules[item.name] = item.rule || [];
   });
+  console.log("getRules", rules);
   return rules;
 };

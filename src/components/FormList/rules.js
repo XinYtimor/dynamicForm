@@ -5,7 +5,6 @@ export const rules = {
     trigger: "blur",
   },
   URL: {
-    required: true,
     message: "URL格式不正确",
     trigger: "blur",
     pattern:
@@ -13,28 +12,24 @@ export const rules = {
   },
 
   LowerCase: {
-    required: true,
     message: "只能输入小写字母",
     trigger: "blur",
     pattern: /^[a-z]+$/,
   },
 
   UpperCase: {
-    required: true,
     message: "只能输入大写字母",
     trigger: "blur",
     pattern: /^[A-Z]+$/,
   },
 
   Alphabets: {
-    required: true,
     message: "只能输入字母",
     trigger: "blur",
     pattern: /^[A-Za-z]+$/,
   },
 
   Email: {
-    required: true,
     message: "邮箱地址格式不正确",
     trigger: "blur",
     pattern:
@@ -42,77 +37,66 @@ export const rules = {
   },
 
   Mobile: {
-    required: true,
     message: "手机号格式不正确",
     trigger: "blur",
     pattern: /^1\d{10}$/,
   },
 
   Phone: {
-    required: true,
     message: "电话号码格式不正确",
     trigger: "blur",
     pattern: /^(0\d{2,3})?-?\d{7,8}$/,
   },
 
   Postcode: {
-    required: true,
     message: "邮编格式不正确",
     trigger: "blur",
     pattern: /^[0-9][0-9]{5}$/,
   },
 
   Number: {
-    required: true,
     message: "只能输入纯数字",
     trigger: "blur",
     pattern: /^\d+$/,
   },
 
   Fax: {
-    required: true,
     message: "传真格式不正确",
     trigger: "blur",
     pattern: /^(\d{3,4}-)?\d{7,8}$/,
   },
 
   Int: {
-    required: true,
     message: "只能输入非负整数",
     trigger: "blur",
     pattern: /^((0)|([1-9]\d*))$/,
   },
 
   IntPlus: {
-    required: true,
     message: "只能输入正整数",
     trigger: "blur",
     pattern: /^[1-9]\d*$/,
   },
 
   Float1: {
-    required: true,
     message: "只能输入数字，最多一位小数",
     trigger: "blur",
     pattern: /^-?\d+(\.\d)?$/,
   },
 
   Float2: {
-    required: true,
     message: "只能输入数字，最多两位小数",
     trigger: "blur",
     pattern: /^-?\d+(\.\d{1,2})?$/,
   },
 
   Float3: {
-    required: true,
     message: "只能输入数字，最多三位小数",
     trigger: "blur",
     pattern: /^-?\d+(\.\d{1,3})?$/,
   },
 
   FloatPlus3: {
-    required: true,
     message: "只能输入大于0的数字，最多三位小数",
     trigger: "blur",
     pattern: /^\d+(\.\d{1,3})?$/,
@@ -134,7 +118,6 @@ export const rules = {
   },
 
   IdCard: {
-    required: true,
     message: "请输入正确的身份证号码",
     trigger: "blur",
     pattern:
@@ -142,14 +125,12 @@ export const rules = {
   },
 
   USCC: {
-    required: true,
     message: "请输入正确的社会信用号",
     trigger: "blur",
     pattern: /^[0-9A-Z]{18}/,
   },
 
   CarNum: {
-    required: true,
     message: "请输入正确的车牌号",
     trigger: "blur",
     pattern:
@@ -157,14 +138,12 @@ export const rules = {
   },
 
   CNandEN: {
-    required: true,
     message: "只能使用中文、英文",
     trigger: "blur",
     pattern: /^[a-zA-Z\u4e00-\u9fa5]+$/,
   },
 
   MobileOrPhone: {
-    required: true,
     message: "手机或电话号格式不正确",
     trigger: "blur",
     pattern: /^1\d{10}$/ || /^(0\d{2,3})?-?\d{7,8}$/,
