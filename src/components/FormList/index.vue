@@ -27,7 +27,7 @@
         </el-form-item>
 
         <el-form-item
-          @click="showFormItem(item.type)"
+          @click="showFormItem(item.type, item)"
           v-if="selectOption !== ''"
           :prop="item.name"
           :label="item.title"
@@ -78,17 +78,7 @@
             >
           </el-radio-group>
           <!-- 评分 -->
-          <!-- <el-rate
-            v-if="item.type === 'rate'"
-            v-model="formLabelAlign[item.name]"
-            :colors="item.defultProps.colors"
-            :size="item.defultProps.size"
-            :allow-half="item.defultProps.allowHalf"
-            :show-text="item.defultProps.showText"
-            :texts="item.defultProps.texts"
-            :max="item.defultProps.max"
-            :low-threshold="item.defultProps.lowThreshold"
-          /> -->
+
           <el-rate
             v-if="item.type === 'rate'"
             v-model="formLabelAlign[item.name]"
@@ -145,7 +135,7 @@
       <el-button @click="commit(baseForm)">提交表单</el-button>
     </div>
     <div class="config">
-      <FormConfig :type="currentFormType"></FormConfig>
+      <FormConfig :currentForm="currentFormConfig"></FormConfig>
     </div>
   </div>
 </template>
@@ -163,10 +153,11 @@ const selectChange = () => {
   console.log(getRules(selectOption.value));
   rules = getRules(selectOption.value);
 };
-const currentFormType = ref("");
-const showFormItem = (e) => {
-  console.log(e);
-  currentFormType.value = e;
+let currentFormConfig = ref(null);
+const showFormItem = (e, configItems) => {
+  console.log(e, configItems);
+  currentFormConfig.value = configItems;
+  console.log("currentFormConfig", currentFormConfig.value);
 };
 const shortcuts = [
   {

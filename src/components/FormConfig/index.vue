@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="config-wrapper">
     <h1>配置项</h1>
     <el-form :model="configForm" label-width="120px" v-if="configState">
       <el-form-item
@@ -9,84 +9,137 @@
       >
         <el-input
           :disabled="item.label === 'type'"
+          v-if="typeof item.value === 'string'"
           v-model="item.value"
-          placeholder="Please input"
+        />
+        <el-input v-if="Array.isArray(item.value)" v-model="item.value" />
+        <el-switch
+          v-if="typeof item.value === 'boolean'"
+          v-model="item.value"
+          size="small"
+          active-text="true"
+          inactive-text="false"
+        />
+        <el-input-number
+          v-if="typeof item.value === 'number'"
+          v-model="item.value"
+          :min="0"
+        />
+        <el-color-picker
+          v-if="item.label === 'colors'"
+          v-for="(color, index) in item.value"
+          v-model="item.value[index]"
+          show-alpha
         />
 
         <!-- <el-input v-model="labelLists[index]" placeholder="Please input" /> -->
       </el-form-item>
     </el-form>
-    <el-button @click="determine(configList)">确定</el-button>
-    <el-button @click="preview">预览</el-button>
-    <el-button @click="exportConfig">导出</el-button>
+    <div class="btn-wrapper">
+      <el-button @click="determine(configList)">确定</el-button>
+      <el-button @click="preview">预览</el-button>
+      <el-button @click="exportConfig">导出</el-button>
+    </div>
+
+    <el-dialog v-model="dialogTableVisible" title="预览">
+      <div class="dialog-content">
+        <div class="preview">
+          <el-form>
+            <el-form-item :label="confirmConfig.title">
+              <el-rate
+                v-if="confirmConfig.type === 'rate'"
+                :colors="confirmConfig.colors"
+                :size="confirmConfig.size"
+                :allow-half="confirmConfig.allowHalf"
+                :show-text="confirmConfig.showText"
+                :texts="confirmConfig.texts"
+                :max="confirmConfig.max"
+                :low-threshold="confirmConfig.lowThreshold"
+              />
+            </el-form-item>
+          </el-form>
+        </div>
+        <div class="config-text">
+          {{ confirmConfig }}
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, watch, toRaw } from "vue";
 import { typeTest, getObjKeys } from "@/utils/utils";
+const dialogTableVisible = ref(false);
 const props = defineProps({
-  type: String,
+  currentForm: Object,
 });
 let configList = ref([]);
 let configForm = reactive({});
 const configState = ref(false);
 let labelLists = reactive({});
+let confirmConfig = ref(null);
 
 const showConfig = (e) => {
   configState.value = true;
-  switch (e) {
+  switch (e.type) {
     case "rate":
-      configList.value = [
-        {
-          label: "name",
-          value: "score",
-        },
-        {
-          label: "type",
-          value: "rate",
-        },
-        {
-          label: "title",
-          value: "评分",
-        },
-        {
-          label: "prompt_msg",
-          value: "",
-        },
-        {
-          label: "colors",
-          value: ["#99A9BF", "#F7BA2A", "#FF9900"],
-        },
-        {
-          label: "size",
-          value: "small",
-        },
-        {
-          label: "allowHalf",
-          value: "true",
-        },
-        {
-          label: "texts",
-          value: ["oops", "disappointed", "normal", "good", "great"],
-        },
-        {
-          label: "showText",
-          value: "true",
-        },
-        {
-          label: "max",
-          value: "5",
-        },
-        {
-          label: "lowThreshold",
-          value: "2",
-        },
-        {
-          label: "val",
-          value: "null",
-        },
-      ];
+      configList.value = ObjectToArr(e);
+
+      // configList.value = [
+      //   {
+      //     label: "name",
+      //     value: "score",
+      //   },
+      //   {
+      //     label: "type",
+      //     value: "rate",
+      //   },
+      //   {
+      //     label: "title",
+      //     value: "评分",
+      //   },
+      //   {
+      //     label: "prompt_msg",
+      //     value: "",
+      //   },
+      //   {
+      //     label: "colors",
+      //     value: ["#99A9BF", "#F7BA2A", "#FF9900"],
+      //   },
+      //   {
+      //     label: "rule",
+      //     value: [],
+      //   },
+      //   {
+      //     label: "size",
+      //     value: "small",
+      //   },
+      //   {
+      //     label: "allowHalf",
+      //     value: "true",
+      //   },
+      //   {
+      //     label: "texts",
+      //     value: ["oops", "disappointed", "normal", "good", "great"],
+      //   },
+      //   {
+      //     label: "showText",
+      //     value: "true",
+      //   },
+      //   {
+      //     label: "max",
+      //     value: "5",
+      //   },
+      //   {
+      //     label: "lowThreshold",
+      //     value: "2",
+      //   },
+      //   {
+      //     label: "val",
+      //     value: "null",
+      //   },
+      // ];
 
       // console.log("getObjKeys", getObjKeys(configList));
       // setLabel(configList);
@@ -98,6 +151,8 @@ const showConfig = (e) => {
   }
 };
 const determine = (e) => {
+  console.log("currentForm", toRaw(props.currentForm));
+  ObjectToArr(toRaw(props.currentForm));
   console.log("当前配置", e);
 };
 const setLabel = (list) => {
@@ -183,10 +238,36 @@ const setLabel = (list) => {
   labelLists = labelList;
   console.log("labelList", labelList);
 };
+const preview = () => {
+  dialogTableVisible.value = true;
+
+  confirmConfig.value = viewToConfig(configList.value);
+  console.log("confirmConfig", confirmConfig.value);
+};
+const viewToConfig = (arr) => {
+  let config = {};
+  arr.forEach((item) => {
+    config[item.label] = item.value;
+  });
+  console.log("config", config);
+  return config;
+};
+
+const ObjectToArr = (obj) => {
+  let arr = [];
+  Object.keys(obj).forEach((key) => {
+    arr.push({
+      label: key,
+      value: obj[key],
+    });
+  });
+  return arr;
+};
 watch(
-  () => props.type,
+  () => props.currentForm,
   (newValue) => {
-    showConfig(newValue);
+    console.log("newValue", toRaw(newValue));
+    showConfig(toRaw(newValue));
   },
   {
     immediate: false, // 立即执行
@@ -195,4 +276,20 @@ watch(
 );
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.config-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+}
+.dialog-content {
+  display: flex;
+  flex-direction: row;
+  .preview {
+    width: 50%;
+  }
+  .config-text {
+    width: 50%;
+  }
+}
+</style>
