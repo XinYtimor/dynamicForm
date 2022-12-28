@@ -158,6 +158,10 @@ let currentFormConfig = ref(null);
 const showFormItem = (e, configItems) => {
   console.log(e, configItems);
   currentFormConfig.value = configItems;
+  currentFormConfig.value.ruleName = [];
+  currentFormConfig.value.rule.forEach((item) => {
+    currentFormConfig.value.ruleName.push(item.name);
+  });
   console.log("currentFormConfig", currentFormConfig.value);
 };
 const shortcuts = [

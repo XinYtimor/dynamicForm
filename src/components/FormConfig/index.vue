@@ -13,8 +13,21 @@
           v-model="item.value"
         />
         <el-input v-if="Array.isArray(item.value)" v-model="item.value" />
-        <el-select
+        <!-- <el-select
           v-if="item.label === 'rule'"
+          v-model="item.value"
+          multiple
+          style="width: 240px"
+        >
+          <el-option
+            v-for="item in ruleOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select> -->
+        <el-select
+          v-if="item.label === 'ruleName'"
           v-model="item.value"
           multiple
           style="width: 240px"
@@ -239,8 +252,8 @@ const preview = () => {
   dialogTableVisible.value = true;
 
   confirmConfig.value = viewToConfig(configList.value);
-  confirmConfig.value.rule = RuleOptToRule(confirmConfig.value.rule);
-
+  // confirmConfig.value.rule = RuleOptToRule(confirmConfig.value.rule);
+  confirmConfig.value.rule = RuleOptToRule(confirmConfig.value.ruleName);
   rulesPreviewList.value[confirmConfig.value.name] = confirmConfig.value.rule;
   console.log("rulesPreviewList", rulesPreviewList.value);
   console.log("confirmConfig", confirmConfig.value);

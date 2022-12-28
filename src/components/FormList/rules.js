@@ -3,6 +3,7 @@ export const rules = {
     required: true,
     message: "请输入内容",
     trigger: "blur",
+    name: "isEmpty",
   },
   URL: {
     message: "URL格式不正确",
