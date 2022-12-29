@@ -8,7 +8,7 @@
         :label="item.label"
       >
         <el-input
-          :disabled="item.label === 'type'"
+          :disabled="item.label === 'type' || item.label === 'id'"
           v-if="typeof item.value === 'string'"
           v-model="item.value"
         />
@@ -106,6 +106,7 @@
           {{ confirmConfig }}
         </div>
       </div>
+      <el-button @click="useConfig">应用</el-button>
     </el-dialog>
   </div>
 </template>
@@ -113,6 +114,7 @@
 <script setup>
 import { reactive, ref, watch, toRaw } from "vue";
 import { typeTest, getObjKeys } from "@/utils/utils";
+import { setFormConfig } from "../FormList/index";
 import { rules } from "../FormList/rules";
 const dialogTableVisible = ref(false);
 const props = defineProps({
@@ -245,6 +247,21 @@ const setLabel = (list) => {
   // labelLists.value = labelList;
   labelLists = labelList;
   console.log("labelList", labelList);
+};
+
+const useConfig = () => {
+  console.log(confirmConfig.value);
+  searchConfigById(confirmConfig.value);
+};
+
+const searchConfigById = (confirmConfig) => {
+  setFormConfig[0].forEach((item) => {
+    if (item.id === confirmConfig.id) {
+      item = confirmConfig;
+      console.log("item", item);
+    }
+  });
+  console.log("修改后的配置", setFormConfig[0]);
 };
 // const rulesPreviewList = reactive({});
 let rulesPreviewList = ref({});

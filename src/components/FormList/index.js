@@ -56,6 +56,7 @@ export const setFormConfig = Object.freeze({
       val: null,
     },
     {
+      id: "a121212",
       name: "password",
       type: "input",
       title: "密码",
