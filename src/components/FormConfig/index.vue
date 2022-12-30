@@ -9,7 +9,7 @@
       >
         <el-input
           :disabled="item.label === 'type' || item.label === 'id'"
-          v-if="typeof item.value === 'string'"
+          v-if="typeof item.value === 'string' || item.label === 'id'"
           v-model="item.value"
         />
         <el-input v-if="Array.isArray(item.value)" v-model="item.value" />
@@ -47,7 +47,7 @@
           inactive-text="false"
         />
         <el-input-number
-          v-if="typeof item.value === 'number'"
+          v-if="typeof item.value === 'number' && item.label !== 'id'"
           v-model="item.value"
           :min="0"
         />

@@ -35,7 +35,10 @@
         item-key="name"
       >
         <template #item="{ element }">
-          <el-form-item :label="element.title">
+          <el-form-item
+            :label="element.title"
+            @click="showFormItem(element.type, element)"
+          >
             <el-input
               v-if="element.type === 'input'"
               v-model="formLabelAlign[element.name]"
@@ -145,6 +148,8 @@ const list1 = ref([
     type: "input",
     title: "输入框",
     prompt_msg: "请输入内容",
+    disabled: false,
+    clearable: true,
     inputType: "",
     rule: [],
     val: null,
@@ -155,6 +160,7 @@ const list1 = ref([
     title: "数字输入框",
     prompt_msg: "",
     min: 1,
+    rule: [],
     max: 100,
     step: 2,
     precision: 2, //精度
@@ -168,6 +174,7 @@ const list1 = ref([
     prompt_msg: "",
     colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
     size: "small",
+    rule: [],
     allowHalf: true,
     texts: ["oops", "disappointed", "normal", "good", "great"],
     showText: true,
@@ -179,6 +186,7 @@ const list1 = ref([
     name: "slider",
     type: "slider",
     title: "滑块",
+    rule: [],
     prompt_msg: "请选择",
     step: 5,
     showInput: false,
@@ -210,6 +218,7 @@ const list1 = ref([
     title: "选择器",
     prompt_msg: "请选择",
     slot: "",
+    rule: [],
     // disabled: false,
     clearable: true,
     multiple: true, //多选
@@ -231,6 +240,7 @@ const list1 = ref([
   {
     name: "like",
     type: "radio",
+    rule: [],
     title: "单项选择",
     prompt_msg: "",
     fill: "#000000",
@@ -273,6 +283,7 @@ const list1 = ref([
     startPlaceholder: "开始时间",
     endPlaceholder: "结束时间",
     format: "",
+    rule: [],
     size: "large",
     //设置禁用日期
     disabledDate: (time) => {
@@ -296,6 +307,18 @@ const list2 = ref([
 const log = (e) => {
   console.log(e);
   console.log(list2.value);
+};
+const emit = defineEmits(["formConfig"]);
+let currentFormConfig = ref(null);
+const showFormItem = (e, configItems) => {
+  console.log(e, configItems);
+  currentFormConfig.value = configItems;
+  currentFormConfig.value.ruleName = [];
+  currentFormConfig.value.rule.forEach((item) => {
+    currentFormConfig.value.ruleName.push(item.name);
+  });
+  console.log("currentFormConfig", currentFormConfig.value);
+  emit("formConfig", currentFormConfig.value);
 };
 </script>
 

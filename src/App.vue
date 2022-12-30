@@ -1,6 +1,6 @@
 <template>
   <FormList> </FormList>
-  <drag></drag>
+  <!-- <drag></drag> -->
 </template>
 
 <script setup>
