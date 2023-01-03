@@ -138,7 +138,12 @@
 <script setup>
 import draggable from "vuedraggable";
 import { reactive, ref } from "vue";
+import { globalData } from "../../store/globalData";
+const allData = globalData();
 const labelPosition = ref("top");
+const add = () => {
+  allData.setCount();
+};
 const formLabelAlign = reactive({});
 const drag = ref(false);
 const list1 = ref([
@@ -306,7 +311,7 @@ const list2 = ref([
 ]);
 const log = (e) => {
   console.log(e);
-  console.log(list2.value);
+  console.log("加入", list2.value);
 };
 const emit = defineEmits(["formConfig"]);
 let currentFormConfig = ref(null);
