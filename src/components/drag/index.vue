@@ -6,7 +6,6 @@
         class="dragArea list-group"
         :list="list1"
         :group="{ name: 'people', pull: 'clone', put: false }"
-        @change="log"
         item-key="name"
       >
         <template #item="{ element }">
@@ -28,10 +27,10 @@
         </template>
       </draggable> -->
       <draggable
-        v-model="list2"
+        @change="log"
+        v-model="allData.formList"
         tag="el-form"
         group="people"
-        @change="log"
         item-key="name"
       >
         <template #item="{ element }">
@@ -137,13 +136,12 @@
 
 <script setup>
 import draggable from "vuedraggable";
-import { reactive, ref } from "vue";
+import { randomRangeId } from "../../utils/utils";
+import { reactive, ref, toRaw } from "vue";
 import { globalData } from "../../store/globalData";
 const allData = globalData();
 const labelPosition = ref("top");
-const add = () => {
-  allData.setCount();
-};
+
 const formLabelAlign = reactive({});
 const drag = ref(false);
 const list1 = ref([
@@ -310,9 +308,13 @@ const list2 = ref([
   },
 ]);
 const log = (e) => {
-  console.log(e);
-  console.log("加入", list2.value);
+  console.log("randomRangeId", randomRangeId(10));
+  e.added.element.id = randomRangeId(10);
+  console.log(toRaw(e.added.element));
+  console.log("加入", allData.formList);
+  // allData.formList = list2.value;
 };
+
 const emit = defineEmits(["formConfig"]);
 let currentFormConfig = ref(null);
 const showFormItem = (e, configItems) => {

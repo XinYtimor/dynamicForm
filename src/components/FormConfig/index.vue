@@ -115,8 +115,10 @@
 import { reactive, ref, watch, toRaw } from "vue";
 import { typeTest, getObjKeys } from "@/utils/utils";
 import { setFormConfig } from "../FormList/index";
+import { globalData } from "../../store/globalData";
 import { rules } from "../FormList/rules";
 const dialogTableVisible = ref(false);
+const allData = globalData();
 const props = defineProps({
   currentForm: Object,
 });
@@ -250,18 +252,20 @@ const setLabel = (list) => {
 };
 
 const useConfig = () => {
-  console.log(confirmConfig.value);
+  console.log("应用", confirmConfig.value);
+  console.log("formList", allData.formList);
   searchConfigById(confirmConfig.value);
 };
 
 const searchConfigById = (confirmConfig) => {
-  setFormConfig[0].forEach((item) => {
+  allData.formList.forEach((item, index) => {
     if (item.id === confirmConfig.id) {
       item = confirmConfig;
+      allData.formList.splice(index, 1, confirmConfig);
       console.log("item", item);
+      console.log("修改后的配置", allData.formList);
     }
   });
-  console.log("修改后的配置", setFormConfig[0]);
 };
 // const rulesPreviewList = reactive({});
 let rulesPreviewList = ref({});
