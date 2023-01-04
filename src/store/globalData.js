@@ -12,6 +12,8 @@ export const globalData = defineStore("globalData", {
           type: "input",
         },
       ],
+      formConfigVisible: false,
+      currentFormConfigByPinia: {},
     };
   },
   actions: {},

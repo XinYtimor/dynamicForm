@@ -5,7 +5,9 @@
       <el-button @click="commit(baseForm)">提交表单</el-button>
     </div>
     <div class="config">
-      <FormConfig :currentForm="currentFormConfig"></FormConfig>
+      <el-dialog v-model="allData.formConfigVisible" title="配置项">
+        <FormConfig :currentForm="currentFormConfig"></FormConfig>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -14,10 +16,12 @@
 import { reactive, ref } from "vue";
 
 import { setFormConfig, selectConfig, getRules } from "./index";
+import { globalData } from "../../store/globalData";
 const baseForm = ref(null);
 const labelPosition = ref("top");
 const formLabelAlign = reactive({});
 const selectOption = ref("");
+const allData = globalData();
 let rules = reactive({});
 const selectChange = () => {
   console.log(getRules(selectOption.value));

@@ -307,18 +307,30 @@ const list2 = ref([
     type: "input",
   },
 ]);
-const log = (e) => {
-  console.log("randomRangeId", randomRangeId(10));
-  e.added.element.id = randomRangeId(10);
-  console.log(toRaw(e.added.element));
-  console.log("加入", allData.formList);
-  // allData.formList = list2.value;
-};
 
 const emit = defineEmits(["formConfig"]);
 let currentFormConfig = ref(null);
+
+const log = (e) => {
+  console.log("randomRangeId", randomRangeId(10));
+  e.added.element.id = randomRangeId(10);
+  currentFormConfig.value = e.added.element;
+  currentFormConfig.value.ruleName = [];
+  currentFormConfig.value.rule.forEach((item) => {
+    currentFormConfig.value.ruleName.push(item.name);
+  });
+  allData.currentFormConfigByPinia = currentFormConfig.value;
+  console.log("当前配置", toRaw(e.added.element));
+
+  console.log("加入", allData.formList);
+  allData.formConfigVisible = true;
+  emit("formConfig", currentFormConfig.value);
+  // allData.formList = list2.value;
+};
+
 const showFormItem = (e, configItems) => {
   console.log(e, configItems);
+  allData.formConfigVisible = true;
   currentFormConfig.value = configItems;
   currentFormConfig.value.ruleName = [];
   currentFormConfig.value.rule.forEach((item) => {

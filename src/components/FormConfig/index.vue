@@ -252,6 +252,8 @@ const setLabel = (list) => {
 };
 
 const useConfig = () => {
+  allData.formConfigVisible = false;
+  dialogTableVisible.value = false;
   console.log("应用", confirmConfig.value);
   console.log("formList", allData.formList);
   searchConfigById(confirmConfig.value);
@@ -308,7 +310,7 @@ watch(
     ruleOptions.value = ruleToRuleOpt(rules);
   },
   {
-    immediate: false, // 立即执行
+    immediate: true, // 立即执行
     deep: true, // 深度监听
   }
 );
