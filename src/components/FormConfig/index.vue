@@ -13,7 +13,11 @@
           v-model="item.value"
         />
         <el-input
-          v-if="Array.isArray(item.value) && item.label !== 'options'"
+          v-if="
+            Array.isArray(item.value) &&
+            item.label !== 'options' &&
+            item.label !== 'radioOptions'
+          "
           v-model="item.value"
         />
         <!-- <el-select
@@ -46,6 +50,7 @@
               />
             </div>
           </div>
+          {{ item }}
 
           <el-button
             @click="
@@ -53,6 +58,61 @@
                 label: 'label',
                 value: 'value',
                 disabled: false,
+              })
+            "
+            >新增</el-button
+          >
+        </div>
+        <div v-if="item.label === 'radioOptions'" class="optConfig">
+          <div v-for="optItem in item.value" class="optItem">
+            <div>
+              <span>label</span>
+              <el-input v-model="optItem.label" />
+            </div>
+            <div><span>value</span> <el-input v-model="optItem.value" /></div>
+            <div>
+              <span>disabled </span>
+              <el-switch
+                v-model="optItem.props.disabled"
+                size="small"
+                active-text="true"
+                inactive-text="false"
+              />
+            </div>
+            <div>
+              <span>border</span>
+              <el-switch
+                v-model="optItem.props.border"
+                size="small"
+                active-text="true"
+                inactive-text="false"
+              />
+            </div>
+            <div>
+              <span>size</span>
+              <el-radio-group v-model="optItem.props.size" class="ml-4">
+                <el-radio label="large" size="small">large</el-radio>
+                <el-radio label="default" size="small">default</el-radio>
+                <el-radio label="small" size="small">small</el-radio>
+              </el-radio-group>
+            </div>
+            <div>
+              <span>textColor</span>
+              <el-color-picker v-model="optItem.props.textColor" />
+            </div>
+          </div>
+
+          <el-button
+            @click="
+              item.value.push({
+                label: 'label',
+                value: 'value',
+                props: {
+                  disabled: false,
+                  border: false,
+                  size: 'large',
+                  textColor: '#e94242',
+                },
               })
             "
             >新增</el-button
@@ -151,6 +211,22 @@
                   :disabled="selectItem.disabled"
                 />
               </el-select>
+
+              <el-radio-group
+                v-if="confirmConfig.type === 'radio'"
+                v-model="confirmConfig[confirmConfig.name]"
+                :text-color="confirmConfig.textColor"
+              >
+                <el-radio
+                  v-for="radioItem in confirmConfig.radioOptions"
+                  :key="radioItem.label"
+                  :label="radioItem.label"
+                  :disabled="radioItem.props.disabled"
+                  :border="radioItem.props.border"
+                  :size="radioItem.props.size"
+                  >{{ radioItem.value }}</el-radio
+                >
+              </el-radio-group>
             </el-form-item>
           </el-form>
         </div>
@@ -374,6 +450,14 @@ watch(
   flex-direction: column;
   .optItem {
     display: flex;
+    width: 40vw;
+    :deep(.el-radio-group) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: left;
+      flex-direction: column;
+      font-size: 0;
+    }
   }
 }
 .config-wrapper {

@@ -104,7 +104,7 @@
               :text-color="element.textColor"
             >
               <el-radio
-                v-for="radioItem in element.options"
+                v-for="radioItem in element.radioOptions"
                 :key="radioItem.label"
                 :label="radioItem.label"
                 :disabled="radioItem.props.disabled"
@@ -249,7 +249,7 @@ const list1 = ref([
     prompt_msg: "",
     fill: "#000000",
     textColor: "#e94242", //按钮形式的 Radio 激活时的文本颜色
-    options: [
+    radioOptions: [
       {
         label: "1",
         value: "opt1",
@@ -257,20 +257,27 @@ const list1 = ref([
           disabled: true,
           size: "large", //large / default /small
           textColor: "#e94242", //按钮形式的 Radio 激活时的文本颜色
+          border: true,
         },
       },
       {
         label: "2",
         value: "opt2",
         props: {
+          disabled: true,
           border: true,
+          size: "large", //large / default /small
+          textColor: "#e94242", //按钮形式的 Radio 激活时的文本颜色
         },
       },
       {
         label: "3",
         value: "opt3",
         props: {
+          disabled: true,
           size: "large", //large / default /small
+          textColor: "#e94242", //按钮形式的 Radio 激活时的文本颜色
+          border: true,
         },
       },
     ],
