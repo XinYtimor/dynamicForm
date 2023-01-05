@@ -12,7 +12,10 @@
           v-if="typeof item.value === 'string' || item.label === 'id'"
           v-model="item.value"
         />
-        <el-input v-if="Array.isArray(item.value)" v-model="item.value" />
+        <el-input
+          v-if="Array.isArray(item.value) && item.label !== 'options'"
+          v-model="item.value"
+        />
         <!-- <el-select
           v-if="item.label === 'rule'"
           v-model="item.value"
@@ -26,6 +29,36 @@
             :value="item.value"
           />
         </el-select> -->
+        <div v-if="item.label === 'options'" class="optConfig">
+          <div v-for="optItem in item.value" class="optItem">
+            <div>
+              <span>label</span>
+              <el-input v-model="optItem.label" />
+            </div>
+            <div><span>value</span> <el-input v-model="optItem.value" /></div>
+            <div>
+              <span>disabled </span>
+              <el-switch
+                v-model="optItem.disabled"
+                size="small"
+                active-text="true"
+                inactive-text="false"
+              />
+            </div>
+          </div>
+
+          <el-button
+            @click="
+              item.value.push({
+                label: 'label',
+                value: 'value',
+                disabled: false,
+              })
+            "
+            >新增</el-button
+          >
+        </div>
+
         <el-select
           v-if="item.label === 'ruleName'"
           v-model="item.value"
@@ -99,6 +132,25 @@
                   confirmConfig.inputType === 'password' ? true : false
                 "
               />
+
+              <el-select
+                v-if="confirmConfig.type === 'select'"
+                v-model="confirmConfig[confirmConfig.name]"
+                :placeholder="confirmConfig.prompt_msg"
+                :disabled="confirmConfig.disabled"
+                :clearable="confirmConfig.clearable"
+                :multiple="confirmConfig.multiple"
+                :collapse-tags="confirmConfig.collapseTags"
+                :collapse-tags-tooltip="confirmConfig.collapseTagsTooltip"
+              >
+                <el-option
+                  v-for="selectItem in confirmConfig.options"
+                  :key="selectItem.value"
+                  :label="selectItem.label"
+                  :value="selectItem.value"
+                  :disabled="selectItem.disabled"
+                />
+              </el-select>
             </el-form-item>
           </el-form>
         </div>
@@ -317,6 +369,13 @@ watch(
 </script>
 
 <style scoped lang="less">
+.optConfig {
+  display: flex;
+  flex-direction: column;
+  .optItem {
+    display: flex;
+  }
+}
 .config-wrapper {
   display: flex;
   flex-direction: column;

@@ -231,6 +231,7 @@ const list1 = ref([
       {
         value: "Option1",
         label: "Option1",
+        disabled: true,
       },
       {
         value: "Option2",
