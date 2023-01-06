@@ -50,7 +50,6 @@
               />
             </div>
           </div>
-          {{ item }}
 
           <el-button
             @click="
@@ -62,6 +61,31 @@
             "
             >新增</el-button
           >
+        </div>
+        <div v-if="item.label === 'cascaderOpt'" class="optConfig">
+          {{ item.value }}
+          <treelist :optList="item.value"></treelist>
+          <!-- <recursive :optList="item.value"></recursive> -->
+          <!-- <div v-for="optItem in item.value" class="optItem">
+            <div>
+              <span>label</span>
+              <el-input v-model="optItem.label" />
+            </div>
+            <div><span>value</span> <el-input v-model="optItem.value" /></div>
+            <div v-if="optItem.children">
+              <span>children</span>
+              <div v-for="childrenItem in optItem.children">
+                <div>
+                  <span>label</span>
+                  <el-input v-model="childrenItem.label" />
+                </div>
+                <div>
+                  <span>value</span> <el-input v-model="childrenItem.value" />
+                </div>
+
+              </div>
+            </div>
+          </div> -->
         </div>
         <div v-if="item.label === 'radioOptions'" class="optConfig">
           <div v-for="optItem in item.value" class="optItem">

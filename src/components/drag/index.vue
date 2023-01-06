@@ -127,6 +127,11 @@
               :end-placeholder="element.endPlaceholder"
               :unlink-panels="element.unlinkPanels"
             />
+            <el-cascader
+              v-if="element.type === 'cascader'"
+              v-model="formLabelAlign[element.name]"
+              :options="element.cascaderOpt"
+            />
           </el-form-item>
         </template>
       </draggable>
@@ -145,6 +150,51 @@ const labelPosition = ref("top");
 const formLabelAlign = reactive({});
 const drag = ref(false);
 const list1 = ref([
+  {
+    id: "",
+    name: "",
+    type: "cascader",
+    title: "级联选择器",
+    prompt_msg: "",
+    cascaderOpt: [
+      {
+        value: "value1",
+        label: "label1",
+        isRoot: true,
+        children: [
+          {
+            value: "value1Child",
+            label: "label1Child",
+
+            children: [
+              {
+                value: "value1Son",
+                label: "label1Son",
+                children: [
+                  {
+                    value: "value1SonSon",
+                    label: "label1SonSon",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            value: "value2Child",
+            label: "label2Child",
+            children: [
+              {
+                value: "value2Son",
+                label: "label2Son",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    rule: [],
+    val: null,
+  },
   {
     id: 1,
     name: "",
