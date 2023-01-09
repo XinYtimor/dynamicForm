@@ -143,6 +143,15 @@
           >
         </div>
 
+        <div v-if="item.label === 'expandTrigger'">
+          <el-switch
+            v-model="item.value"
+            size="small"
+            active-text="click"
+            inactive-text="hover"
+          />
+        </div>
+
         <el-select
           v-if="item.label === 'ruleName'"
           v-model="item.value"
@@ -157,7 +166,9 @@
           />
         </el-select>
         <el-switch
-          v-if="typeof item.value === 'boolean'"
+          v-if="
+            typeof item.value === 'boolean' && item.label !== 'expandTrigger'
+          "
           v-model="item.value"
           size="small"
           active-text="true"
@@ -194,6 +205,24 @@
               :label="confirmConfig.title"
               :prop="confirmConfig.name"
             >
+              <el-cascader
+                v-if="confirmConfig.type === 'cascader'"
+                v-model="confirmConfig[confirmConfig.name]"
+                :placeholder="confirmConfig.prompt_msg"
+                :options="confirmConfig.cascaderOpt"
+                :expandTrigger="confirmConfig.expandTrigger"
+                :multiple="confirmConfig.multiple"
+                :separator="confirmConfig.separator"
+                :filterable="confirmConfig.filterable"
+                :tag-type="confirmConfig.tagType"
+              >
+                <template #default="{ node, data }">
+                  <span>{{ data.label }}</span>
+                  <span v-if="!node.isLeaf && confirmConfig.isShowNum">
+                    ({{ data.children.length }})
+                  </span>
+                </template>
+              </el-cascader>
               <el-rate
                 v-if="confirmConfig.type === 'rate'"
                 :colors="confirmConfig.colors"

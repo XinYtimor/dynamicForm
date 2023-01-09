@@ -130,8 +130,20 @@
             <el-cascader
               v-if="element.type === 'cascader'"
               v-model="formLabelAlign[element.name]"
+              :placeholder="element.prompt_msg"
               :options="element.cascaderOpt"
-            />
+              :expandTrigger="element.expandTrigger"
+              :multiple="element.multiple"
+              :separator="element.separator"
+              :tag-type="element.tagType"
+            >
+              <template #default="{ node, data }">
+                <span>{{ data.label }}</span>
+                <span v-if="!node.isLeaf && element.isShowNum">
+                  ({{ data.children.length }})
+                </span>
+              </template>
+            </el-cascader>
           </el-form-item>
         </template>
       </draggable>
@@ -155,7 +167,7 @@ const list1 = ref([
     name: "",
     type: "cascader",
     title: "级联选择器",
-    prompt_msg: "",
+    prompt_msg: "级联选择器",
     cascaderOpt: [
       {
         value: "value1",
@@ -192,6 +204,12 @@ const list1 = ref([
         ],
       },
     ],
+    isShowNum: false,
+    separator: "/",
+    tagType: "info",
+    filterable: true,
+    expandTrigger: "click",
+    multiple: false,
     rule: [],
     val: null,
   },
