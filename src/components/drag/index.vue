@@ -38,6 +38,7 @@
             :label="element.title"
             @click="showFormItem(element.type, element)"
           >
+            <!-- 输入框 -->
             <el-input
               v-if="element.type === 'input'"
               v-model="formLabelAlign[element.name]"
@@ -49,6 +50,7 @@
               :show-password="element.inputType === 'password' ? true : false"
             >
             </el-input>
+            <!-- 数字输入框 -->
             <el-input-number
               v-if="element.type === 'numberInput'"
               v-model="formLabelAlign[element.name]"
@@ -58,6 +60,7 @@
               :precision="element.precision"
               :controls-position="element.position"
             />
+            <!-- 评分 -->
             <el-rate
               v-if="element.type === 'rate'"
               v-model="formLabelAlign[element.name]"
@@ -69,6 +72,7 @@
               :max="element.max"
               :low-threshold="element.lowThreshold"
             />
+            <!-- 滑块 -->
             <el-slider
               v-if="element.type === 'slider'"
               :step="element.step"
@@ -80,6 +84,7 @@
               :marks="element.marks"
               v-model="formLabelAlign[element.name]"
             />
+            <!-- 选择器 -->
             <el-select
               v-if="element.type === 'select'"
               v-model="formLabelAlign[element.name]"
@@ -98,6 +103,7 @@
                 :disabled="selectItem.disabled"
               />
             </el-select>
+            <!-- 单选框 -->
             <el-radio-group
               v-if="element.type === 'radio'"
               v-model="formLabelAlign[element.name]"
@@ -113,6 +119,7 @@
                 >{{ radioItem.value }}</el-radio
               >
             </el-radio-group>
+            <!-- 日期选择器 -->
             <el-date-picker
               v-if="element.type === 'DATE_TIME'"
               v-model="formLabelAlign[element.name]"
@@ -127,12 +134,13 @@
               :end-placeholder="element.endPlaceholder"
               :unlink-panels="element.unlinkPanels"
             />
+            <!-- 级联选择器 -->
             <el-cascader
               v-if="element.type === 'cascader'"
               v-model="formLabelAlign[element.name]"
               :placeholder="element.prompt_msg"
               :options="element.cascaderOpt"
-              :expandTrigger="element.expandTrigger"
+              :expandTrigger="element.expandTrigger ? 'hover' : 'click'"
               :multiple="element.multiple"
               :separator="element.separator"
               :tag-type="element.tagType"
@@ -144,6 +152,31 @@
                 </span>
               </template>
             </el-cascader>
+            <!-- 多选框 -->
+
+            <el-checkbox-group
+              v-model="formLabelAlign[element.name]"
+              :min="element.min"
+              :max="element.max"
+            >
+              <el-checkbox
+                v-if="!element.checkboxType"
+                v-for="item in element.checkboxOpt"
+                :key="item.label"
+                :label="item.label"
+                :disabled="item.disabled"
+                :border="item.border"
+              ></el-checkbox>
+              <el-checkbox-button
+                v-if="element.checkboxType"
+                v-for="item in element.checkboxOpt"
+                :key="item.label"
+                :label="item.label"
+                :disabled="item.disabled"
+                :border="item.border"
+                >{{ item.label }}
+              </el-checkbox-button>
+            </el-checkbox-group>
           </el-form-item>
         </template>
       </draggable>
@@ -208,7 +241,7 @@ const list1 = ref([
     separator: "/",
     tagType: "info",
     filterable: true,
-    expandTrigger: "click",
+    expandTrigger: false,
     multiple: false,
     rule: [],
     val: null,
@@ -222,6 +255,25 @@ const list1 = ref([
     disabled: false,
     clearable: true,
     inputType: "",
+    rule: [],
+    val: null,
+  },
+  {
+    id: 1,
+    name: "",
+    type: "checkbox",
+    checkboxType: false,
+    title: "多选框",
+    prompt_msg: "",
+    min: 1,
+    max: 2,
+    checkboxOpt: [
+      {
+        label: "Option A",
+        disabled: false,
+        border: false,
+      },
+    ],
     rule: [],
     val: null,
   },

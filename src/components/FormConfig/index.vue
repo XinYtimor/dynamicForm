@@ -3,7 +3,7 @@
     <h1>配置项</h1>
     <el-form :model="configForm" label-width="120px" v-if="configState">
       <el-form-item
-        v-for="(item, index) in configList"
+        v-for="item in configList"
         :key="item.label"
         :label="item.label"
       >
@@ -16,12 +16,16 @@
           v-if="
             Array.isArray(item.value) &&
             item.label !== 'options' &&
-            item.label !== 'radioOptions'
+            item.label !== 'radioOptions' &&
+            item.label !== 'checkboxOpt'
           "
           v-model="item.value"
         />
+
         <!-- <el-select
           v-if="item.label === 'rule'"
+
+          
           v-model="item.value"
           multiple
           style="width: 240px"
@@ -142,6 +146,42 @@
             >新增</el-button
           >
         </div>
+        <div v-if="item.label === 'checkboxOpt'" class="optConfig">
+          <div v-for="optItem in item.value" class="optItem">
+            <div class="opt">
+              <span>label</span>
+              <el-input v-model="optItem.label" />
+            </div>
+            <div class="opt">
+              <span>disabled</span>
+              <el-switch
+                v-model="optItem.disabled"
+                size="small"
+                active-text="true"
+                inactive-text="false"
+              />
+            </div>
+            <div class="opt">
+              <span>border</span>
+              <el-switch
+                v-model="optItem.border"
+                size="small"
+                active-text="true"
+                inactive-text="false"
+              />
+            </div>
+          </div>
+          <el-button
+            @click="
+              item.value.push({
+                label: 'label',
+                disabled: false,
+                border: false,
+              })
+            "
+            >新增</el-button
+          >
+        </div>
 
         <div v-if="item.label === 'expandTrigger'">
           <el-switch
@@ -151,7 +191,14 @@
             inactive-text="hover"
           />
         </div>
-
+        <div v-if="item.label === 'checkboxType'">
+          <el-switch
+            v-model="item.value"
+            size="small"
+            active-text="button"
+            inactive-text="default"
+          />
+        </div>
         <el-select
           v-if="item.label === 'ruleName'"
           v-model="item.value"
@@ -167,7 +214,9 @@
         </el-select>
         <el-switch
           v-if="
-            typeof item.value === 'boolean' && item.label !== 'expandTrigger'
+            typeof item.value === 'boolean' &&
+            item.label !== 'expandTrigger' &&
+            item.label !== 'checkboxType'
           "
           v-model="item.value"
           size="small"
@@ -210,7 +259,7 @@
                 v-model="confirmConfig[confirmConfig.name]"
                 :placeholder="confirmConfig.prompt_msg"
                 :options="confirmConfig.cascaderOpt"
-                :expandTrigger="confirmConfig.expandTrigger"
+                :expandTrigger="confirmConfig.expandTrigger ? 'hover' : 'click'"
                 :multiple="confirmConfig.multiple"
                 :separator="confirmConfig.separator"
                 :filterable="confirmConfig.filterable"
@@ -245,6 +294,30 @@
                   confirmConfig.inputType === 'password' ? true : false
                 "
               />
+              <el-checkbox-group
+                v-if="confirmConfig.type === 'checkbox'"
+                v-model="confirmConfig[confirmConfig.name]"
+                :min="confirmConfig.min"
+                :max="confirmConfig.max"
+              >
+                <el-checkbox
+                  v-if="!confirmConfig.checkboxType"
+                  v-for="item in confirmConfig.checkboxOpt"
+                  :key="item.label"
+                  :label="item.label"
+                  :disabled="item.disabled"
+                  :border="item.border"
+                ></el-checkbox>
+                <el-checkbox-button
+                  v-if="confirmConfig.checkboxType"
+                  v-for="item in confirmConfig.checkboxOpt"
+                  :key="item.label"
+                  :label="item.label"
+                  :disabled="item.disabled"
+                  :border="item.border"
+                  >{{ item.label }}
+                </el-checkbox-button>
+              </el-checkbox-group>
 
               <el-select
                 v-if="confirmConfig.type === 'select'"
@@ -510,6 +583,10 @@ watch(
       justify-content: left;
       flex-direction: column;
       font-size: 0;
+    }
+    .opt {
+      display: flex;
+      flex-direction: column;
     }
   }
 }
