@@ -177,6 +177,17 @@
                 >{{ item.label }}
               </el-checkbox-button>
             </el-checkbox-group>
+            <!-- 开关 -->
+            <el-switch
+              v-if="element.type === 'switch'"
+              v-model="formLabelAlign[element.name]"
+              :disabled="element.disabled"
+              :size="element.size"
+              :style="allData.switchStyle[element.id]"
+              :inline-prompt="element.inlinePrompt"
+              :active-text="element.activeText"
+              :inactive-text="element.inactiveText"
+            />
           </el-form-item>
         </template>
       </draggable>
@@ -187,10 +198,11 @@
 <script setup>
 import draggable from "vuedraggable";
 import { randomRangeId } from "../../utils/utils";
-import { reactive, ref, toRaw } from "vue";
+import { computed, reactive, ref, toRaw, watch } from "vue";
 import { globalData } from "../../store/globalData";
 const allData = globalData();
 const labelPosition = ref("top");
+const switchStyle = reactive({});
 
 const formLabelAlign = reactive({});
 const drag = ref(false);
@@ -255,6 +267,21 @@ const list1 = ref([
     disabled: false,
     clearable: true,
     inputType: "",
+    rule: [],
+    val: null,
+  },
+  {
+    id: 1,
+    name: "",
+    type: "switch",
+    title: "开关",
+    prompt_msg: "",
+    inlinePrompt: false,
+    activeText: "true",
+    inactiveText: "false",
+    onColor: "#13ce66",
+    offColor: "#ff4949",
+    disabled: false,
     rule: [],
     val: null,
   },

@@ -234,6 +234,11 @@
           v-model="item.value[index]"
           show-alpha
         />
+        <el-color-picker
+          v-if="item.label === 'onColor' || item.label === 'offColor'"
+          v-model="item.value"
+          show-alpha
+        />
       </el-form-item>
     </el-form>
     <div class="btn-wrapper">
@@ -353,6 +358,15 @@
                   >{{ radioItem.value }}</el-radio
                 >
               </el-radio-group>
+              <el-switch
+                v-if="confirmConfig.type === 'switch'"
+                v-model="confirmConfig[confirmConfig.name]"
+                :size="confirmConfig.size"
+                :style="allData.switchStyle[confirmConfig.id]"
+                :inline-prompt="confirmConfig.inlinePrompt"
+                :active-text="confirmConfig.activeText"
+                :inactive-text="confirmConfig.inactiveText"
+              />
             </el-form-item>
           </el-form>
         </div>
@@ -366,7 +380,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch, toRaw } from "vue";
+import { reactive, ref, watch, toRaw, computed } from "vue";
 import { typeTest, getObjKeys } from "@/utils/utils";
 import { setFormConfig } from "../FormList/index";
 import { globalData } from "../../store/globalData";
@@ -404,17 +418,6 @@ const RuleOptToRule = (ruleArr) => {
 const showConfig = (e) => {
   configState.value = true;
   configList.value = ObjectToArr(e);
-  // switch (e.type) {
-  //   case "rate":
-  //     configList.value = ObjectToArr(e);
-  //     break;
-  //   case "input":
-  //     configList.value = ObjectToArr(e);
-  //     break;
-  //   default:
-  //     configList = null;
-  //     break;
-  // }
 };
 const determine = (e) => {
   console.log("currentForm", toRaw(props.currentForm));
@@ -534,6 +537,13 @@ const preview = () => {
   rulesPreviewList.value[confirmConfig.value.name] = confirmConfig.value.rule;
   console.log("rulesPreviewList", rulesPreviewList.value);
   console.log("confirmConfig", confirmConfig.value);
+  //开关的颜色控制
+  if (confirmConfig.value.type === "switch") {
+    allData.switchStyle[
+      confirmConfig.value.id
+    ] = `--el-switch-on-color:${confirmConfig.value.onColor};--el-switch-off-color:${confirmConfig.value.offColor}`;
+  }
+  console.log("switchStyleByPreview", allData.switchStyle);
 };
 
 const viewToConfig = (arr) => {
