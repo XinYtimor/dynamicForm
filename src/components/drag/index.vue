@@ -188,6 +188,34 @@
               :active-text="element.activeText"
               :inactive-text="element.inactiveText"
             />
+            <!-- 上传 -->
+            <el-upload
+              v-if="element.type === 'upload'"
+              v-model:file-list="element.fileList"
+              class="upload-demo"
+              :drag="element.dragOpt.isShow"
+              :action="element.action"
+              :multiple="element.multiple"
+              :limit="element.limit"
+            >
+              <el-icon v-if="element.dragOpt.isShow" class="el-icon--upload"
+                ><upload-filled
+              /></el-icon>
+              <div v-if="element.dragOpt.isShow" class="el-upload__text">
+                <!-- Drop file here or <em>click to upload</em> -->
+                {{ element.dragOpt.text }}
+              </div>
+              <el-button
+                :type="element.ClickOpt.type"
+                v-if="element.ClickOpt.isShow"
+                >{{ element.ClickOpt.text }}</el-button
+              >
+              <template #tip>
+                <div class="el-upload__tip">
+                  {{ element.tip }}
+                </div>
+              </template>
+            </el-upload>
           </el-form-item>
         </template>
       </draggable>
@@ -267,6 +295,31 @@ const list1 = ref([
     disabled: false,
     clearable: true,
     inputType: "",
+    rule: [],
+    val: null,
+  },
+  {
+    id: 1,
+    name: "",
+    type: "upload",
+    title: "上传",
+    prompt_msg: "请输入内容",
+    fileList: [],
+    action: "",
+    limit: 3,
+    dragOpt: {
+      isShow: false,
+      text: "Drop file here or <em>click to upload</em>",
+    },
+
+    multiple: true,
+
+    ClickOpt: {
+      isShow: false,
+      type: "primary",
+      text: "上传",
+    },
+    tip: "最多只能上传3张图片",
     rule: [],
     val: null,
   },

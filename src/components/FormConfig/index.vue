@@ -146,6 +146,46 @@
             >新增</el-button
           >
         </div>
+        <div v-if="item.label === 'dragOpt'" class="optConfig">
+          <div class="optItem">
+            <span>isShow</span>
+            <el-switch
+              v-model="item.value.isShow"
+              size="small"
+              active-text="true"
+              inactive-text="false"
+            />
+          </div>
+          <div class="optItem">
+            <span>text</span>
+            <el-input v-model="item.value.text"></el-input>
+          </div>
+        </div>
+        <div v-if="item.label === 'ClickOpt'" class="optConfig">
+          <div class="optItem">
+            <span>isShow</span>
+            <el-switch
+              v-model="item.value.isShow"
+              size="small"
+              active-text="true"
+              inactive-text="false"
+            />
+          </div>
+          <div class="optItem">
+            <span>text</span>
+            <el-input v-model="item.value.text"></el-input>
+          </div>
+          <div class="optItem">
+            <span>type</span>
+            <el-radio-group v-model="item.value.type">
+              <el-radio :label="'primary'">primary</el-radio>
+              <el-radio :label="'success'">success</el-radio>
+              <el-radio :label="'info'">Info</el-radio>
+              <el-radio :label="'warning'">Warning</el-radio>
+              <el-radio :label="'danger'">Danger</el-radio>
+            </el-radio-group>
+          </div>
+        </div>
         <div v-if="item.label === 'checkboxOpt'" class="optConfig">
           <div v-for="optItem in item.value" class="optItem">
             <div class="opt">
@@ -367,6 +407,38 @@
                 :active-text="confirmConfig.activeText"
                 :inactive-text="confirmConfig.inactiveText"
               />
+              <el-upload
+                v-if="confirmConfig.type === 'upload'"
+                v-model:file-list="confirmConfig.fileList"
+                class="upload-demo"
+                :drag="confirmConfig.dragOpt.isShow"
+                :action="confirmConfig.action"
+                :multiple="confirmConfig.multiple"
+                :limit="confirmConfig.limit"
+              >
+                <el-icon
+                  v-if="confirmConfig.dragOpt.isShow"
+                  class="el-icon--upload"
+                  ><upload-filled
+                /></el-icon>
+                <div
+                  v-if="confirmConfig.dragOpt.isShow"
+                  class="el-upload__text"
+                >
+                  <!-- Drop file here or <em>click to upload</em> -->
+                  {{ confirmConfig.dragOpt.text }}
+                </div>
+                <el-button
+                  :type="confirmConfig.ClickOpt.type"
+                  v-if="confirmConfig.ClickOpt.isShow"
+                  >{{ confirmConfig.ClickOpt.text }}</el-button
+                >
+                <template #tip>
+                  <div class="el-upload__tip">
+                    {{ confirmConfig.tip }}
+                  </div>
+                </template>
+              </el-upload>
             </el-form-item>
           </el-form>
         </div>
