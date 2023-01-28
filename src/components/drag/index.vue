@@ -17,15 +17,7 @@
     </div>
     <div class="drag2">
       表单
-      <!-- <draggable v-model="list2" tag="tbody" item-key="name">
-        <template #item="{ element }">
-          <tr>
-            <td scope="row">{{ element.id }}</td>
-            <td>{{ element.name }}</td>
-            <td>{{ element.sport }}</td>
-          </tr>
-        </template>
-      </draggable> -->
+
       <draggable
         @change="log"
         v-model="allData.formList"
@@ -37,7 +29,13 @@
           <el-form-item
             :label="element.title"
             @click="showFormItem(element.type, element)"
+            class="configForm"
           >
+            <el-button
+              class="deleteFormItem"
+              @click="deleteFormItem(element.id)"
+              >删除</el-button
+            >
             <!-- 输入框 -->
             <el-input
               v-if="element.type === 'input'"
@@ -197,6 +195,7 @@
               :action="element.action"
               :multiple="element.multiple"
               :limit="element.limit"
+              :before-upload="beforeAvatarUpload"
             >
               <el-icon v-if="element.dragOpt.isShow" class="el-icon--upload"
                 ><upload-filled
@@ -228,6 +227,8 @@ import draggable from "vuedraggable";
 import { randomRangeId } from "../../utils/utils";
 import { computed, reactive, ref, toRaw, watch } from "vue";
 import { globalData } from "../../store/globalData";
+import { ElMessage } from "element-plus";
+import { Plus, UploadFilled } from "@element-plus/icons-vue";
 const allData = globalData();
 const labelPosition = ref("top");
 const switchStyle = reactive({});
@@ -303,7 +304,6 @@ const list1 = ref([
     name: "",
     type: "upload",
     title: "上传",
-    prompt_msg: "请输入内容",
     fileList: [],
     action: "",
     limit: 3,
@@ -547,6 +547,13 @@ const showFormItem = (e, configItems) => {
   console.log("currentFormConfig", currentFormConfig.value);
   emit("formConfig", currentFormConfig.value);
 };
+const deleteFormItem = (e) => {
+  allData.formList.forEach((item, index) => {
+    if (item.id === e) {
+      allData.formList.splice(index, 1);
+    }
+  });
+};
 </script>
 
 <style scoped lang="less">
@@ -557,5 +564,16 @@ const showFormItem = (e, configItems) => {
 }
 .list-group-item {
   line-height: 50px;
+}
+.configForm {
+  cursor: pointer;
+  &:hover {
+    .deleteFormItem {
+      opacity: 1;
+    }
+  }
+}
+.deleteFormItem {
+  opacity: 0;
 }
 </style>

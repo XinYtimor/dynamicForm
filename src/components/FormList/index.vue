@@ -3,6 +3,7 @@
     <div class="from">
       <drag @formConfig="getCurrentFormConfig"></drag>
       <el-button @click="commit(baseForm)">提交表单</el-button>
+      <el-button @click="ApplicationForm">应用表单</el-button>
     </div>
     <div class="config">
       <el-dialog v-model="allData.formConfigVisible" title="配置项">
@@ -31,6 +32,9 @@ let currentFormConfig = ref(null);
 const getCurrentFormConfig = (e) => {
   currentFormConfig.value = e;
   console.log("getCurrentFormConfig", e);
+};
+const ApplicationForm = () => {
+  console.log("allData应用", allData.formList);
 };
 // const showFormItem = (e, configItems) => {
 //   console.log(e, configItems);

@@ -21,22 +21,6 @@
           "
           v-model="item.value"
         />
-
-        <!-- <el-select
-          v-if="item.label === 'rule'"
-
-          
-          v-model="item.value"
-          multiple
-          style="width: 240px"
-        >
-          <el-option
-            v-for="item in ruleOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select> -->
         <div v-if="item.label === 'options'" class="optConfig">
           <div v-for="optItem in item.value" class="optItem">
             <div>
@@ -69,27 +53,6 @@
         <div v-if="item.label === 'cascaderOpt'" class="optConfig">
           {{ item.value }}
           <treelist :optList="item.value"></treelist>
-          <!-- <recursive :optList="item.value"></recursive> -->
-          <!-- <div v-for="optItem in item.value" class="optItem">
-            <div>
-              <span>label</span>
-              <el-input v-model="optItem.label" />
-            </div>
-            <div><span>value</span> <el-input v-model="optItem.value" /></div>
-            <div v-if="optItem.children">
-              <span>children</span>
-              <div v-for="childrenItem in optItem.children">
-                <div>
-                  <span>label</span>
-                  <el-input v-model="childrenItem.label" />
-                </div>
-                <div>
-                  <span>value</span> <el-input v-model="childrenItem.value" />
-                </div>
-
-              </div>
-            </div>
-          </div> -->
         </div>
         <div v-if="item.label === 'radioOptions'" class="optConfig">
           <div v-for="optItem in item.value" class="optItem">
@@ -317,6 +280,39 @@
                   </span>
                 </template>
               </el-cascader>
+
+              <el-upload
+                v-if="confirmConfig.type === 'upload'"
+                v-model:file-list="confirmConfig.fileList"
+                class="upload-demo"
+                :drag="confirmConfig.dragOpt.isShow"
+                :action="confirmConfig.action"
+                :multiple="confirmConfig.multiple"
+                :limit="confirmConfig.limit"
+              >
+                <el-icon
+                  v-if="confirmConfig.dragOpt.isShow"
+                  class="el-icon--upload"
+                  ><upload-filled
+                /></el-icon>
+                <div
+                  v-if="confirmConfig.dragOpt.isShow"
+                  class="el-upload__text"
+                >
+                  <!-- Drop file here or <em>click to upload</em> -->
+                  {{ confirmConfig.dragOpt.text }}
+                </div>
+                <el-button
+                  :type="confirmConfig.ClickOpt.type"
+                  v-if="confirmConfig.ClickOpt.isShow"
+                  >{{ confirmConfig.ClickOpt.text }}</el-button
+                >
+                <template #tip>
+                  <div class="el-upload__tip">
+                    {{ confirmConfig.tip }}
+                  </div>
+                </template>
+              </el-upload>
               <el-rate
                 v-if="confirmConfig.type === 'rate'"
                 :colors="confirmConfig.colors"
@@ -457,6 +453,7 @@ import { typeTest, getObjKeys } from "@/utils/utils";
 import { setFormConfig } from "../FormList/index";
 import { globalData } from "../../store/globalData";
 import { rules } from "../FormList/rules";
+import { Plus, UploadFilled } from "@element-plus/icons-vue";
 const dialogTableVisible = ref(false);
 const allData = globalData();
 const props = defineProps({
@@ -495,89 +492,6 @@ const determine = (e) => {
   console.log("currentForm", toRaw(props.currentForm));
   ObjectToArr(toRaw(props.currentForm));
   console.log("当前配置", e);
-};
-const setLabel = (list) => {
-  let labelList = {};
-  getObjKeys(list).forEach((item, index) => {
-    switch (item) {
-      case "name":
-        labelList.name = {
-          label: "数据对象",
-          disabled: false,
-        };
-        break;
-
-      case "type":
-        labelList.type = {
-          label: "类型",
-          disabled: true,
-        };
-        break;
-      // case "title":
-      //   labelList[index] = {
-      //     label: "标题",
-      //     disabled: false,
-      //   };
-      //   break;
-      // case "max":
-      //   labelList[index] = {
-      //     label: "最大值",
-      //     disabled: false,
-      //   };
-      //   break;
-      // case "prompt_msg":
-      //   labelList[index] = {
-      //     label: "占位文本",
-      //     disabled: false,
-      //   };
-      //   break;
-      // case "colors":
-      //   labelList[index] = {
-      //     label: "颜色",
-      //     disabled: false,
-      //   };
-      //   break;
-      // case "size":
-      //   labelList[index] = {
-      //     label: "尺寸",
-      //     disabled: false,
-      //   };
-      //   break;
-      // case "allowHalf":
-      //   labelList[index] = {
-      //     label: "允许半颗星",
-      //     disabled: false,
-      //   };
-      //   break;
-      // case "texts":
-      //   labelList[index] = {
-      //     label: "辅助文字",
-      //     disabled: false,
-      //   };
-      //   break;
-      // case "showText":
-      //   labelList[index] = {
-      //     label: "显示辅助文字",
-      //     disabled: false,
-      //   };
-      //   break;
-      // case "lowThreshold":
-      //   labelList[index] = {
-      //     label: "低分和中等分数的界限值",
-      //     disabled: false,
-      //   };
-      //   break;
-      // case "val":
-      //   labelList[index] = {
-      //     label: "默认值",
-      //     disabled: false,
-      //   };
-      //   break;
-    }
-  });
-  // labelLists.value = labelList;
-  labelLists = labelList;
-  console.log("labelList", labelList);
 };
 
 const useConfig = () => {
@@ -659,12 +573,10 @@ watch(
   .optItem {
     display: flex;
     width: 40vw;
+    flex-direction: column;
     :deep(.el-radio-group) {
       display: flex;
       flex-wrap: wrap;
-      justify-content: left;
-      flex-direction: column;
-      font-size: 0;
     }
     .opt {
       display: flex;
