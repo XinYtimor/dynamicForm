@@ -17,10 +17,15 @@
             Array.isArray(item.value) &&
             item.label !== 'options' &&
             item.label !== 'radioOptions' &&
-            item.label !== 'checkboxOpt'
+            item.label !== 'checkboxOpt' &&
+            item.label !== 'rule'
           "
           v-model="item.value"
         />
+
+        <div v-if="item.label === 'rule'" v-for="ruleItem in item.value">
+          {{ ruleItem }}
+        </div>
         <div v-if="item.label === 'options'" class="optConfig">
           <div v-for="optItem in item.value" class="optItem">
             <div>
