@@ -23,11 +23,7 @@ const labelPosition = ref("top");
 const formLabelAlign = reactive({});
 const selectOption = ref("");
 const allData = globalData();
-let rules = reactive({});
-const selectChange = () => {
-  console.log(getRules(selectOption.value));
-  rules = getRules(selectOption.value);
-};
+
 let currentFormConfig = ref(null);
 const getCurrentFormConfig = (e) => {
   currentFormConfig.value = e;
@@ -36,15 +32,7 @@ const getCurrentFormConfig = (e) => {
 const ApplicationForm = () => {
   console.log("allData应用", allData.formList);
 };
-// const showFormItem = (e, configItems) => {
-//   console.log(e, configItems);
-//   currentFormConfig.value = configItems;
-//   currentFormConfig.value.ruleName = [];
-//   currentFormConfig.value.rule.forEach((item) => {
-//     currentFormConfig.value.ruleName.push(item.name);
-//   });
-//   console.log("currentFormConfig", currentFormConfig.value);
-// };
+
 const shortcuts = [
   {
     text: "今天",

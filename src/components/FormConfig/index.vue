@@ -512,7 +512,7 @@ const searchConfigById = (confirmConfig) => {
     }
   });
 };
-// const rulesPreviewList = reactive({});
+
 let rulesPreviewList = ref({});
 const preview = () => {
   dialogTableVisible.value = true;

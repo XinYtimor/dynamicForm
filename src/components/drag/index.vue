@@ -201,7 +201,6 @@
                 ><upload-filled
               /></el-icon>
               <div v-if="element.dragOpt.isShow" class="el-upload__text">
-                <!-- Drop file here or <em>click to upload</em> -->
                 {{ element.dragOpt.text }}
               </div>
               <el-button
