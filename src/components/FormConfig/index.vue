@@ -304,7 +304,6 @@
                   v-if="confirmConfig.dragOpt.isShow"
                   class="el-upload__text"
                 >
-                  <!-- Drop file here or <em>click to upload</em> -->
                   {{ confirmConfig.dragOpt.text }}
                 </div>
                 <el-button
@@ -426,7 +425,6 @@
                   v-if="confirmConfig.dragOpt.isShow"
                   class="el-upload__text"
                 >
-                  <!-- Drop file here or <em>click to upload</em> -->
                   {{ confirmConfig.dragOpt.text }}
                 </div>
                 <el-button

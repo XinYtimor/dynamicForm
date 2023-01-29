@@ -1,5 +1,5 @@
 <template>
-  <h1>drag</h1>
+  <h1>配置表单</h1>
   <div class="drag-wrapper">
     <div class="drag1">
       <draggable
@@ -504,16 +504,7 @@ const list1 = ref([
     val: null,
   },
 ]);
-const list2 = ref([
-  {
-    id: 1,
-    name: "Abby",
-    sport: "basket",
-    title: "输入框",
-    prompt_msg: "请输入内容",
-    type: "input",
-  },
-]);
+const list2 = ref([]);
 
 const emit = defineEmits(["formConfig"]);
 let currentFormConfig = ref(null);
@@ -547,6 +538,7 @@ const showFormItem = (e, configItems) => {
   emit("formConfig", currentFormConfig.value);
 };
 const deleteFormItem = (e) => {
+  event.stopPropagation(); //阻止冒泡
   allData.formList.forEach((item, index) => {
     if (item.id === e) {
       allData.formList.splice(index, 1);
