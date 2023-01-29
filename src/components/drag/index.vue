@@ -519,11 +519,11 @@ const emit = defineEmits(["formConfig"]);
 let currentFormConfig = ref(null);
 
 const log = (e) => {
-  console.log("randomRangeId", randomRangeId(10));
   e.added.element.id = randomRangeId(10);
   currentFormConfig.value = e.added.element;
   currentFormConfig.value.ruleName = [];
   currentFormConfig.value.rule.forEach((item) => {
+    console.log("配置规则", item);
     currentFormConfig.value.ruleName.push(item.name);
   });
   allData.currentFormConfigByPinia = currentFormConfig.value;
