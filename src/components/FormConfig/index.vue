@@ -1,7 +1,7 @@
 <template>
   <div class="config-wrapper">
     <h1>配置项</h1>
-    <el-form :model="configForm" label-width="120px" v-if="configState">
+    <!-- <el-form :model="configForm" label-width="120px" v-if="configState">
       <el-form-item
         v-for="item in configList"
         :key="item.label"
@@ -248,7 +248,252 @@
           show-alpha
         />
       </el-form-item>
-    </el-form>
+    </el-form> -->
+    <div class="custom-form">
+      <div v-for="(item, index) in configList">
+        <span>{{ item.desc }}--{{ item.label }}</span>
+        <el-input
+          :disabled="item.label === 'type' || item.label === 'id'"
+          v-if="typeof item.value === 'string' || item.label === 'id'"
+          v-model="item.value"
+        />
+        <el-input
+          v-if="
+            Array.isArray(item.value) &&
+            item.label !== 'options' &&
+            item.label !== 'radioOptions' &&
+            item.label !== 'checkboxOpt' &&
+            item.label !== 'rule'
+          "
+          v-model="item.value"
+        />
+
+        <div v-if="item.label === 'rule'" v-for="ruleItem in item.value">
+          {{ ruleItem }}
+        </div>
+        <div v-if="item.label === 'options'" class="optConfig">
+          <div v-for="optItem in item.value" class="optItem">
+            <div>
+              <span>label</span>
+              <el-input v-model="optItem.label" />
+            </div>
+            <div><span>value</span> <el-input v-model="optItem.value" /></div>
+            <div>
+              <span>disabled </span>
+              <el-switch
+                v-model="optItem.disabled"
+                size="small"
+                active-text="true"
+                inactive-text="false"
+              />
+            </div>
+          </div>
+
+          <el-button
+            @click="
+              item.value.push({
+                label: 'label',
+                value: 'value',
+                disabled: false,
+              })
+            "
+            >新增</el-button
+          >
+        </div>
+        <div v-if="item.label === 'cascaderOpt'" class="optConfig">
+          {{ item.value }}
+          <treelist :optList="item.value"></treelist>
+        </div>
+        <div v-if="item.label === 'radioOptions'" class="optConfig">
+          <div v-for="optItem in item.value" class="optItem">
+            <div>
+              <span>label</span>
+              <el-input v-model="optItem.label" />
+            </div>
+            <div><span>value</span> <el-input v-model="optItem.value" /></div>
+            <div>
+              <span>disabled </span>
+              <el-switch
+                v-model="optItem.props.disabled"
+                size="small"
+                active-text="true"
+                inactive-text="false"
+              />
+            </div>
+            <div>
+              <span>border</span>
+              <el-switch
+                v-model="optItem.props.border"
+                size="small"
+                active-text="true"
+                inactive-text="false"
+              />
+            </div>
+            <div>
+              <span>size</span>
+              <el-radio-group v-model="optItem.props.size" class="ml-4">
+                <el-radio label="large" size="small">large</el-radio>
+                <el-radio label="default" size="small">default</el-radio>
+                <el-radio label="small" size="small">small</el-radio>
+              </el-radio-group>
+            </div>
+            <div>
+              <span>textColor</span>
+              <el-color-picker v-model="optItem.props.textColor" />
+            </div>
+          </div>
+
+          <el-button
+            @click="
+              item.value.push({
+                label: 'label',
+                value: 'value',
+                props: {
+                  disabled: false,
+                  border: false,
+                  size: 'large',
+                  textColor: '#e94242',
+                },
+              })
+            "
+            >新增</el-button
+          >
+        </div>
+        <div v-if="item.label === 'dragOpt'" class="optConfig">
+          <div class="optItem">
+            <span>isShow</span>
+            <el-switch
+              v-model="item.value.isShow"
+              size="small"
+              active-text="true"
+              inactive-text="false"
+            />
+          </div>
+          <div class="optItem">
+            <span>text</span>
+            <el-input v-model="item.value.text"></el-input>
+          </div>
+        </div>
+        <div v-if="item.label === 'ClickOpt'" class="optConfig">
+          <div class="optItem">
+            <span>isShow</span>
+            <el-switch
+              v-model="item.value.isShow"
+              size="small"
+              active-text="true"
+              inactive-text="false"
+            />
+          </div>
+          <div class="optItem">
+            <span>text</span>
+            <el-input v-model="item.value.text"></el-input>
+          </div>
+          <div class="optItem">
+            <span>type</span>
+            <el-radio-group v-model="item.value.type">
+              <el-radio :label="'primary'">primary</el-radio>
+              <el-radio :label="'success'">success</el-radio>
+              <el-radio :label="'info'">Info</el-radio>
+              <el-radio :label="'warning'">Warning</el-radio>
+              <el-radio :label="'danger'">Danger</el-radio>
+            </el-radio-group>
+          </div>
+        </div>
+        <div v-if="item.label === 'checkboxOpt'" class="optConfig">
+          <div v-for="optItem in item.value" class="optItem">
+            <div class="opt">
+              <span>label</span>
+              <el-input v-model="optItem.label" />
+            </div>
+            <div class="opt">
+              <span>disabled</span>
+              <el-switch
+                v-model="optItem.disabled"
+                size="small"
+                active-text="true"
+                inactive-text="false"
+              />
+            </div>
+            <div class="opt">
+              <span>border</span>
+              <el-switch
+                v-model="optItem.border"
+                size="small"
+                active-text="true"
+                inactive-text="false"
+              />
+            </div>
+          </div>
+          <el-button
+            @click="
+              item.value.push({
+                label: 'label',
+                disabled: false,
+                border: false,
+              })
+            "
+            >新增</el-button
+          >
+        </div>
+
+        <div v-if="item.label === 'expandTrigger'">
+          <el-switch
+            v-model="item.value"
+            size="small"
+            active-text="click"
+            inactive-text="hover"
+          />
+        </div>
+        <div v-if="item.label === 'checkboxType'">
+          <el-switch
+            v-model="item.value"
+            size="small"
+            active-text="button"
+            inactive-text="default"
+          />
+        </div>
+        <el-select
+          v-if="item.label === 'ruleName'"
+          v-model="item.value"
+          multiple
+          style="width: 240px"
+        >
+          <el-option
+            v-for="item in ruleOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+        <el-switch
+          v-if="
+            typeof item.value === 'boolean' &&
+            item.label !== 'expandTrigger' &&
+            item.label !== 'checkboxType'
+          "
+          v-model="item.value"
+          size="small"
+          active-text="true"
+          inactive-text="false"
+        />
+        <el-input-number
+          v-if="typeof item.value === 'number' && item.label !== 'id'"
+          v-model="item.value"
+          :min="0"
+        />
+        <el-color-picker
+          v-if="item.label === 'colors'"
+          v-for="(color, index) in item.value"
+          v-model="item.value[index]"
+          show-alpha
+        />
+        <el-color-picker
+          v-if="item.label === 'onColor' || item.label === 'offColor'"
+          v-model="item.value"
+          show-alpha
+        />
+      </div>
+    </div>
     <div class="btn-wrapper">
       <el-button @click="determine(configList)">确定</el-button>
       <el-button @click="preview">预览</el-button>
@@ -489,6 +734,7 @@ const RuleOptToRule = (ruleArr) => {
 
 const showConfig = (e) => {
   configState.value = true;
+  console.log("eeee", ObjectToArr(e));
   configList.value = ObjectToArr(e);
 };
 const determine = (e) => {
@@ -507,7 +753,7 @@ const useConfig = () => {
 
 const searchConfigById = (confirmConfig) => {
   allData.formList.forEach((item, index) => {
-    if (item.id === confirmConfig.id) {
+    if (item.id.value === confirmConfig.id) {
       item = confirmConfig;
       allData.formList.splice(index, 1, confirmConfig);
       console.log("item", item);
@@ -523,6 +769,7 @@ const preview = () => {
   confirmConfig.value = viewToConfig(configList.value);
   // confirmConfig.value.rule = RuleOptToRule(confirmConfig.value.rule);
   confirmConfig.value.rule = RuleOptToRule(confirmConfig.value.ruleName);
+
   rulesPreviewList.value[confirmConfig.value.name] = confirmConfig.value.rule;
   console.log("rulesPreviewList", rulesPreviewList.value);
   console.log("confirmConfig", confirmConfig.value);
@@ -545,11 +792,13 @@ const viewToConfig = (arr) => {
 };
 
 const ObjectToArr = (obj) => {
+  console.log("obj", obj);
   let arr = [];
   Object.keys(obj).forEach((key) => {
     arr.push({
       label: key,
-      value: obj[key],
+      value: obj[key].value,
+      desc: obj[key].desc,
     });
   });
   return arr;

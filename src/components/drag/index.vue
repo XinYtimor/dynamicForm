@@ -10,7 +10,7 @@
       >
         <template #item="{ element }">
           <div class="list-group-item">
-            {{ element.title }}
+            {{ element.title.value }}
           </div>
         </template>
       </draggable>
@@ -37,6 +37,7 @@
               >删除</el-button
             >
             <!-- 输入框 -->
+
             <el-input
               v-if="element.type === 'input'"
               v-model="formLabelAlign[element.name]"
@@ -228,6 +229,7 @@ import { computed, reactive, ref, toRaw, watch } from "vue";
 import { globalData } from "../../store/globalData";
 import { ElMessage } from "element-plus";
 import { Plus, UploadFilled } from "@element-plus/icons-vue";
+
 const allData = globalData();
 const labelPosition = ref("top");
 const switchStyle = reactive({});
@@ -236,68 +238,226 @@ const formLabelAlign = reactive({});
 const drag = ref(false);
 const list1 = ref([
   {
-    id: "",
-    name: "",
-    type: "cascader",
-    title: "级联选择器",
-    prompt_msg: "级联选择器",
-    cascaderOpt: [
-      {
-        value: "value1",
-        label: "label1",
-        isRoot: true,
-        children: [
-          {
-            value: "value1Child",
-            label: "label1Child",
+    // id: "",
+    id: {
+      desc: "id",
+      value: 1,
+    },
+    // name: "",
+    name: {
+      desc: "name",
+      value: "",
+    },
+    // type: "cascader",
+    type: {
+      desc: "类型",
+      value: "cascader",
+    },
+    title: {
+      desc: "标题",
+      value: "级联选择器",
+    },
 
-            children: [
-              {
-                value: "value1Son",
-                label: "label1Son",
-                children: [
-                  {
-                    value: "value1SonSon",
-                    label: "label1SonSon",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            value: "value2Child",
-            label: "label2Child",
-            children: [
-              {
-                value: "value2Son",
-                label: "label2Son",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    isShowNum: false,
-    separator: "/",
-    tagType: "info",
-    filterable: true,
-    expandTrigger: false,
-    multiple: false,
-    rule: [],
-    val: null,
+    // title: "级联选择器",
+    // prompt_msg: "级联选择器",
+    prompt_msg: {
+      desc: "默认内容",
+      value: "级联选择器",
+    },
+    cascaderOpt: {
+      desc: "配置项",
+      value: [
+        {
+          value: "value1",
+          label: "label1",
+          isRoot: true,
+          children: [
+            {
+              value: "value1Child",
+              label: "label1Child",
+
+              children: [
+                {
+                  value: "value1Son",
+                  label: "label1Son",
+                  children: [
+                    {
+                      value: "value1SonSon",
+                      label: "label1SonSon",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              value: "value2Child",
+              label: "label2Child",
+              children: [
+                {
+                  value: "value2Son",
+                  label: "label2Son",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    // cascaderOpt: [
+    //   {
+    //     value: "value1",
+    //     label: "label1",
+    //     isRoot: true,
+    //     children: [
+    //       {
+    //         value: "value1Child",
+    //         label: "label1Child",
+
+    //         children: [
+    //           {
+    //             value: "value1Son",
+    //             label: "label1Son",
+    //             children: [
+    //               {
+    //                 value: "value1SonSon",
+    //                 label: "label1SonSon",
+    //               },
+    //             ],
+    //           },
+    //         ],
+    //       },
+    //       {
+    //         value: "value2Child",
+    //         label: "label2Child",
+    //         children: [
+    //           {
+    //             value: "value2Son",
+    //             label: "label2Son",
+    //           },
+    //         ],
+    //       },
+    //     ],
+    //   },
+    // ],
+    // isShowNum: false,
+    isShowNum: {
+      desc: "isShowNum",
+      value: false,
+    },
+    // separator: "/",
+    separator: {
+      desc: "separator",
+      value: "/",
+    },
+    // tagType: "info",
+    tagType: {
+      desc: "tagType",
+      value: "info",
+    },
+    // filterable: true,
+    filterable: {
+      desc: "filterable",
+      value: true,
+    },
+    // expandTrigger: false,
+    expandTrigger: {
+      desc: "expandTrigger",
+      value: false,
+    },
+    // multiple: false,
+    multiple: {
+      desc: "multiple",
+      value: false,
+    },
+    // rule: [],
+    // val: null,
+    rule: {
+      desc: "",
+      value: [],
+    },
+
+    val: {
+      desc: "",
+      value: null,
+    },
   },
   {
-    id: 1,
-    name: "",
-    type: "input",
-    title: "输入框",
-    prompt_msg: "请输入内容",
-    disabled: false,
-    clearable: true,
-    inputType: "",
-    rule: [],
-    val: null,
+    // id: 1,
+    id: {
+      desc: "id",
+      value: 1,
+    },
+    // name: "",
+    name: {
+      desc: "名称",
+      value: "",
+    },
+    // type: "input",
+    type: {
+      desc: "类型",
+      value: "input",
+    },
+    // title: "输入框",
+    title: {
+      desc: "标题",
+      value: "输入框",
+    },
+    // prompt_msg: "请输入内容",
+    prompt_msg: {
+      desc: "默认内容",
+      value: "请输入内容",
+    },
+    // disabled: false,
+    disabled: {
+      desc: "",
+      value: false,
+    },
+    // clearable: true,
+    clearable: {
+      desc: "",
+      value: true,
+    },
+    autosize: {
+      desc: "",
+      value: true,
+    },
+    // inputType: "",
+    inputType: {
+      desc: "",
+      value: false,
+    },
+    // rule: [],
+    rule: {
+      desc: "",
+      value: [],
+    },
+    // val: null,
+    val: {
+      desc: "",
+      value: null,
+    },
   },
+  // {
+  //   id: 1,
+
+  //   name: "",
+
+  //   type: "input",
+
+  //   title: "输入框",
+
+  //   prompt_msg: "请输入内容",
+
+  //   disabled: false,
+
+  //   clearable: true,
+
+  //   inputType: "",
+
+  //   rule: [],
+
+  //   val: null,
+  // },
   {
     id: 1,
     name: "",
@@ -510,13 +670,25 @@ const emit = defineEmits(["formConfig"]);
 let currentFormConfig = ref(null);
 
 const log = (e) => {
-  e.added.element.id = randomRangeId(10);
+  e.added.element.id = {
+    desc: "id",
+    value: randomRangeId(10),
+  };
   currentFormConfig.value = e.added.element;
-  currentFormConfig.value.ruleName = [];
-  currentFormConfig.value.rule.forEach((item) => {
+  console.log("currentFormConfig.value.", currentFormConfig.value);
+  currentFormConfig.value.ruleName = {
+    label: "校验规则",
+    value: [],
+  };
+  currentFormConfig.value.rule.value.forEach((item) => {
     console.log("配置规则", item);
-    currentFormConfig.value.ruleName.push(item.name);
+    currentFormConfig.value.ruleName.value.push(item.name);
   });
+  // currentFormConfig.value.ruleName = [];
+  // currentFormConfig.value.rule.forEach((item) => {
+  //   console.log("配置规则", item);
+  //   currentFormConfig.value.ruleName.push(item.name);
+  // });
   allData.currentFormConfigByPinia = currentFormConfig.value;
   console.log("当前配置", toRaw(e.added.element));
 
@@ -531,7 +703,7 @@ const showFormItem = (e, configItems) => {
   allData.formConfigVisible = true;
   currentFormConfig.value = configItems;
   currentFormConfig.value.ruleName = [];
-  currentFormConfig.value.rule.forEach((item) => {
+  currentFormConfig.value.rule.value.forEach((item) => {
     currentFormConfig.value.ruleName.push(item.name);
   });
   console.log("currentFormConfig", currentFormConfig.value);
