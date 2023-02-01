@@ -238,17 +238,14 @@ const formLabelAlign = reactive({});
 const drag = ref(false);
 const list1 = ref([
   {
-    // id: "",
     id: {
       desc: "id",
       value: 1,
     },
-    // name: "",
     name: {
       desc: "name",
       value: "",
     },
-    // type: "cascader",
     type: {
       desc: "类型",
       value: "cascader",
@@ -257,9 +254,6 @@ const list1 = ref([
       desc: "标题",
       value: "级联选择器",
     },
-
-    // title: "级联选择器",
-    // prompt_msg: "级联选择器",
     prompt_msg: {
       desc: "默认内容",
       value: "级联选择器",
@@ -303,116 +297,64 @@ const list1 = ref([
         },
       ],
     },
-    // cascaderOpt: [
-    //   {
-    //     value: "value1",
-    //     label: "label1",
-    //     isRoot: true,
-    //     children: [
-    //       {
-    //         value: "value1Child",
-    //         label: "label1Child",
-
-    //         children: [
-    //           {
-    //             value: "value1Son",
-    //             label: "label1Son",
-    //             children: [
-    //               {
-    //                 value: "value1SonSon",
-    //                 label: "label1SonSon",
-    //               },
-    //             ],
-    //           },
-    //         ],
-    //       },
-    //       {
-    //         value: "value2Child",
-    //         label: "label2Child",
-    //         children: [
-    //           {
-    //             value: "value2Son",
-    //             label: "label2Son",
-    //           },
-    //         ],
-    //       },
-    //     ],
-    //   },
-    // ],
-    // isShowNum: false,
     isShowNum: {
       desc: "isShowNum",
       value: false,
     },
-    // separator: "/",
     separator: {
       desc: "separator",
       value: "/",
     },
-    // tagType: "info",
     tagType: {
       desc: "tagType",
       value: "info",
     },
-    // filterable: true,
     filterable: {
       desc: "filterable",
       value: true,
     },
-    // expandTrigger: false,
     expandTrigger: {
       desc: "expandTrigger",
       value: false,
     },
-    // multiple: false,
     multiple: {
       desc: "multiple",
       value: false,
     },
-    // rule: [],
-    // val: null,
     rule: {
       desc: "",
       value: [],
     },
-
     val: {
       desc: "",
       value: null,
     },
   },
   {
-    // id: 1,
     id: {
       desc: "id",
       value: 1,
     },
-    // name: "",
     name: {
       desc: "名称",
       value: "",
     },
-    // type: "input",
     type: {
       desc: "类型",
       value: "input",
     },
-    // title: "输入框",
     title: {
       desc: "标题",
       value: "输入框",
     },
-    // prompt_msg: "请输入内容",
     prompt_msg: {
       desc: "默认内容",
       value: "请输入内容",
     },
-    // disabled: false,
     disabled: {
       desc: "",
       value: false,
     },
-    // clearable: true,
     clearable: {
       desc: "",
       value: true,
@@ -421,247 +363,572 @@ const list1 = ref([
       desc: "",
       value: true,
     },
-    // inputType: "",
     inputType: {
       desc: "",
       value: false,
     },
-    // rule: [],
     rule: {
       desc: "",
       value: [],
     },
-    // val: null,
     val: {
       desc: "",
       value: null,
     },
   },
-  // {
-  //   id: 1,
-
-  //   name: "",
-
-  //   type: "input",
-
-  //   title: "输入框",
-
-  //   prompt_msg: "请输入内容",
-
-  //   disabled: false,
-
-  //   clearable: true,
-
-  //   inputType: "",
-
-  //   rule: [],
-
-  //   val: null,
-  // },
   {
-    id: 1,
-    name: "",
-    type: "upload",
-    title: "上传",
-    fileList: [],
-    action: "",
-    limit: 3,
+    id: {
+      desc: "id",
+      value: 1,
+    },
+    name: {
+      desc: "name",
+      value: "",
+    },
+    type: {
+      desc: "类型",
+      value: "upload",
+    },
+    title: {
+      desc: "标题",
+      value: "上传",
+    },
+    fileList: {
+      desc: "文件列表",
+      value: [],
+    },
+    action: {
+      desc: "请求 URL",
+      value: "",
+    },
+    limit: {
+      desc: "允许上传文件的最大数量",
+      value: 3,
+    },
     dragOpt: {
-      isShow: false,
-      text: "Drop file here or <em>click to upload</em>",
+      desc: "拖拽上传设置",
+      value: {
+        isShow: false,
+        text: "Drop file here or <em>click to upload</em>",
+      },
     },
-
-    multiple: true,
-
+    multiple: {
+      desc: "是否支持多选文件",
+      value: true,
+    },
     ClickOpt: {
-      isShow: false,
-      type: "primary",
-      text: "上传",
-    },
-    tip: "最多只能上传3张图片",
-    rule: [],
-    val: null,
-  },
-  {
-    id: 1,
-    name: "",
-    type: "switch",
-    title: "开关",
-    prompt_msg: "",
-    inlinePrompt: false,
-    activeText: "true",
-    inactiveText: "false",
-    onColor: "#13ce66",
-    offColor: "#ff4949",
-    disabled: false,
-    rule: [],
-    val: null,
-  },
-  {
-    id: 1,
-    name: "",
-    type: "checkbox",
-    checkboxType: false,
-    title: "多选框",
-    prompt_msg: "",
-    min: 1,
-    max: 2,
-    checkboxOpt: [
-      {
-        label: "Option A",
-        disabled: false,
-        border: false,
+      desc: "点击上传设置",
+      value: {
+        isShow: false,
+        type: "primary",
+        text: "上传",
       },
-    ],
-    rule: [],
+    },
+    tip: {
+      desc: "提示",
+      value: "最多只能上传3张图片",
+    },
+    rule: {
+      desc: "rule",
+      value: [],
+    },
+    rule: {
+      desc: "rule",
+      val: null,
+    },
+  },
+  {
+    id: {
+      desc: "id",
+      value: null,
+    },
+    name: {
+      desc: "name",
+      value: "",
+    },
+    type: {
+      desc: "类型",
+      value: "switch",
+    },
+    title: {
+      desc: "标题",
+      value: "开关",
+    },
+    prompt_msg: {
+      desc: "默认",
+      value: "",
+    },
+    inlinePrompt: {
+      desc: "无论图标或文本是否显示在点内，只会呈现文本的第一个字符",
+      value: false,
+    },
+    activeText: {
+      desc: "switch 打开时的文字描述",
+      value: "true",
+    },
+    inactiveText: {
+      desc: "switch 的状态为 off 时的文字描述",
+      value: "false",
+    },
+    onColor: {
+      desc: "当在 on 状态时的背景颜色",
+      value: "#13ce66",
+    },
+    offColor: {
+      desc: "当在 off 状态时的背景颜色",
+      value: "#ff4949",
+    },
+    disabled: {
+      desc: "是否禁用",
+      value: false,
+    },
+    rule: {
+      desc: "",
+      value: [],
+    },
+    val: {
+      desc: "",
+      value: null,
+    },
+  },
+  {
+    id: {
+      desc: "id",
+      value: "",
+    },
+    name: {
+      desc: "name",
+      value: "",
+    },
+    type: {
+      desc: "类型",
+      value: "checkbox",
+    },
+    checkboxType: {
+      desc: "选框类型",
+      value: false,
+    },
+    title: {
+      desc: "标题",
+      value: "多选框",
+    },
+    prompt_msg: {
+      desc: "",
+      value: "",
+    },
+    min: {
+      desc: "可被勾选的 checkbox 的最小数量",
+      value: 1,
+    },
+    max: {
+      desc: "可被勾选的 checkbox 的最大数量",
+      value: 2,
+    },
+    checkboxOpt: {
+      desc: "选框设置",
+      value: [
+        {
+          label: "Option A",
+          disabled: false,
+          border: false,
+        },
+      ],
+    },
+    rule: {
+      desc: "",
+      value: [],
+    },
+    val: {
+      desc: "",
+      value: null,
+    },
+  },
+  {
+    id: {
+      desc: "id",
+      value: "",
+    },
+    name: {
+      desc: "name",
+      value: "",
+    },
+    type: {
+      desc: "类型",
+      value: "numberInput",
+    },
+    title: {
+      desc: "标题",
+      value: "数字输入框",
+    },
+    prompt_msg: {
+      desc: "默认内容",
+      value: "",
+    },
+    min: {
+      desc: "设置计数器允许的最小值",
+      value: 1,
+    },
+    rule: {
+      desc: "",
+      value: [],
+    },
+    max: {
+      desc: "设置计数器允许的最大值",
+      value: 100,
+    },
+    step: {
+      desc: "计数器步长",
+      value: 2,
+    },
+    precision: {
+      desc: "数值精度",
+      value: 2,
+    },
+    position: {
+      desc: "控制按钮位置",
+      value: "right",
+    },
+    val: {
+      desc: "",
+      value: null,
+    },
+  },
+  {
+    id: {
+      desc: "id",
+      value: 1,
+    },
+    name: {
+      desc: "name",
+      value: "",
+    },
+    type: {
+      desc: "类型",
+      value: "rate",
+    },
+    title: {
+      desc: "标题",
+      value: "评分",
+    },
+    prompt_msg: {
+      desc: "默认内容",
+      value: "",
+    },
+    colors: {
+      desc: "icon 的颜色",
+      value: ["#99A9BF", "#F7BA2A", "#FF9900"],
+    },
+    size: {
+      desc: "尺寸",
+      value: "small",
+    },
+    rule: {
+      desc: "",
+      value: [],
+    },
+    allowHalf: {
+      desc: "是否允许半选",
+      value: true,
+    },
+    texts: {
+      desc: "辅助文字数组",
+      value: ["oops", "disappointed", "normal", "good", "great"],
+    },
+    showText: {
+      desc: "是否显示辅助文字",
+      value: true,
+    },
+    max: {
+      desc: "最大分值",
+      value: 5,
+    },
+    lowThreshold: {
+      desc: "低分和中等分数的界限值",
+      value: 2,
+    },
     val: null,
   },
   {
-    name: "",
-    type: "numberInput",
-    title: "数字输入框",
-    prompt_msg: "",
-    min: 1,
-    rule: [],
-    max: 100,
-    step: 2,
-    precision: 2, //精度
-    position: "right",
-    val: null,
-  },
-  {
-    name: "score",
-    type: "rate",
-    title: "评分",
-    prompt_msg: "",
-    colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
-    size: "small",
-    rule: [],
-    allowHalf: true,
-    texts: ["oops", "disappointed", "normal", "good", "great"],
-    showText: true,
-    max: 5,
-    lowThreshold: 2,
-    val: null,
-  },
-  {
-    name: "slider",
-    type: "slider",
-    title: "滑块",
-    rule: [],
-    prompt_msg: "请选择",
-    step: 5,
-    showInput: false,
-    showStops: true,
-    range: true, //范围选择
-    debounce: 500,
-    placement: "top", //top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end
+    id: {
+      desc: "id",
+      value: 1,
+    },
+    name: {
+      desc: "name",
+      value: "",
+    },
+    type: {
+      desc: "类型",
+      value: "slider",
+    },
+    title: {
+      desc: "标题",
+      value: "滑块",
+    },
+    rule: {
+      desc: "",
+      value: [],
+    },
+    prompt_msg: {
+      desc: "默认内容",
+      value: "请选择",
+    },
+    step: {
+      desc: "步长",
+      value: 5,
+    },
+    showInput: {
+      desc: "是否显示输入框",
+      value: false,
+    },
+    showStops: {
+      desc: "是否显示间断点",
+      value: true,
+    },
+    range: {
+      desc: "是否开启选择范围",
+      value: true,
+    },
+    debounce: {
+      desc: "输入时的去抖延迟",
+      value: 500,
+    },
+    placement: {
+      desc: "Tooltip 出现的位置",
+      value: "top", //top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end
+    },
     marks: {
-      0: "0°C",
-      8: "8°C",
-      37: "37°C",
-      50: {
-        style: {
-          color: "#1989FA",
+      desc: "标记",
+      value: {
+        0: "0°C",
+        8: "8°C",
+        37: "37°C",
+        50: {
+          style: {
+            color: "#1989FA",
+          },
+          label: "50%",
         },
-        label: "50%",
       },
     },
-    // disabled: false,
-    clearable: true,
-    multiple: true, //多选
-    collapseTags: true, //合并为一段文字
-    collapseTagsTooltip: true, //鼠标悬停折叠文字以显示具体所选值
-    val: null,
-  },
-  {
-    name: "select",
-    type: "select",
-    title: "选择器",
-    prompt_msg: "请选择",
-    slot: "",
-    rule: [],
-    // disabled: false,
-    clearable: true,
-    multiple: true, //多选
-    collapseTags: true, //合并为一段文字
-    collapseTagsTooltip: true, //鼠标悬停折叠文字以显示具体所选值
-    options: [
-      {
-        value: "Option1",
-        label: "Option1",
-        disabled: true,
-      },
-      {
-        value: "Option2",
-        label: "Option2",
-        disabled: true,
-      },
-    ],
-    val: null,
-  },
-  {
-    name: "like",
-    type: "radio",
-    rule: [],
-    title: "单项选择",
-    prompt_msg: "",
-    fill: "#000000",
-    textColor: "#e94242", //按钮形式的 Radio 激活时的文本颜色
-    radioOptions: [
-      {
-        label: "1",
-        value: "opt1",
-        props: {
-          disabled: true,
-          size: "large", //large / default /small
-          textColor: "#e94242", //按钮形式的 Radio 激活时的文本颜色
-          border: true,
-        },
-      },
-      {
-        label: "2",
-        value: "opt2",
-        props: {
-          disabled: true,
-          border: true,
-          size: "large", //large / default /small
-          textColor: "#e94242", //按钮形式的 Radio 激活时的文本颜色
-        },
-      },
-      {
-        label: "3",
-        value: "opt3",
-        props: {
-          disabled: true,
-          size: "large", //large / default /small
-          textColor: "#e94242", //按钮形式的 Radio 激活时的文本颜色
-          border: true,
-        },
-      },
-    ],
-
-    val: null,
-  },
-  {
-    name: "start_time",
-    type: "DATE_TIME",
-    title: "时间选择器",
-    prompt_msg: "请选择时间",
-    type: "datetime", //year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange
-    rangeSeparator: "->",
-    startPlaceholder: "开始时间",
-    endPlaceholder: "结束时间",
-    format: "",
-    rule: [],
-    size: "large",
-    //设置禁用日期
-    disabledDate: (time) => {
-      return time.getTime() > Date.now();
+    clearable: {
+      desc: "Tooltip 出现的位置",
+      value: true,
     },
-    shortcutOpt: false,
-    unlinkPanels: true,
-    val: null,
+    val: {
+      desc: "",
+      value: null,
+    },
+  },
+  {
+    id: {
+      desc: "id",
+      value: 1,
+    },
+    name: {
+      desc: "名称",
+      value: "",
+    },
+    type: {
+      desc: "类型",
+      value: "select",
+    },
+    title: {
+      desc: "标题",
+      value: "选择器",
+    },
+    prompt_msg: {
+      desc: "默认内容",
+      value: "请选择",
+    },
+    slot: {
+      desc: "slot",
+      value: "",
+    },
+    rule: {
+      desc: "",
+      value: [],
+    },
+    clearable: {
+      desc: "是否可以清空选项",
+      value: true,
+    },
+    disabled: {
+      desc: "是否禁用",
+      value: false,
+    },
+    multiple: {
+      desc: "是否多选",
+      value: true,
+    },
+    collapseTags: {
+      desc: "多选时是否将选中值按文字的形式展示",
+      value: true,
+    },
+    collapseTagsTooltip: {
+      desc: "当鼠标悬停于折叠标签的文本时，是否显示所有选中的标签",
+      value: true,
+    },
+    options: {
+      desc: "配置项",
+      value: [
+        {
+          value: "Option1",
+          label: "Option1",
+          disabled: true,
+        },
+        {
+          value: "Option2",
+          label: "Option2",
+          disabled: true,
+        },
+      ],
+    },
+    val: {
+      desc: "",
+      value: null,
+    },
+  },
+  {
+    id: {
+      desc: "id",
+      value: 1,
+    },
+    name: {
+      desc: "name",
+      value: "",
+    },
+    type: {
+      desc: "类型",
+      value: "radio",
+    },
+    rule: {
+      desc: "rule",
+      value: [],
+    },
+    title: {
+      desc: "标题",
+      value: "单项选择",
+    },
+    prompt_msg: {
+      desc: "默认内容",
+      value: "",
+    },
+    fill: {
+      desc: "按钮形式的 Radio 激活时的填充色和边框色",
+      value: "#000000",
+    },
+    textColor: {
+      desc: "按钮形式的 Radio 激活时的文本颜色",
+      value: "#e94242",
+    },
+    radioOptions: {
+      desc: "配置项",
+      value: [
+        {
+          label: "1",
+          value: "opt1",
+          props: {
+            disabled: true,
+            size: "large", //large / default /small
+            textColor: "#e94242", //按钮形式的 Radio 激活时的文本颜色
+            border: true,
+          },
+        },
+        {
+          label: "2",
+          value: "opt2",
+          props: {
+            disabled: true,
+            border: true,
+            size: "large", //large / default /small
+            textColor: "#e94242", //按钮形式的 Radio 激活时的文本颜色
+          },
+        },
+        {
+          label: "3",
+          value: "opt3",
+          props: {
+            disabled: true,
+            size: "large", //large / default /small
+            textColor: "#e94242", //按钮形式的 Radio 激活时的文本颜色
+            border: true,
+          },
+        },
+      ],
+    },
+    val: {
+      desc: "",
+      value: null,
+    },
+  },
+  {
+    id: {
+      desc: "id",
+      value: 1,
+    },
+    name: {
+      desc: "name",
+      value: "",
+    },
+    type: {
+      desc: "类型",
+      value: "DATE_TIME",
+    },
+    title: {
+      desc: "标题",
+      value: "时间选择器",
+    },
+    prompt_msg: {
+      desc: "默认内容",
+      value: "请选择时间",
+    },
+    timeType: {
+      desc: "时间类型",
+      value: "datetime", //year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange
+    },
+    rangeSeparator: {
+      desc: "选择范围时的分隔符",
+      value: "->",
+    },
+    startPlaceholder: {
+      desc: "范围选择时开始日期的占位内容",
+      value: "开始时间",
+    },
+    endPlaceholder: {
+      desc: "范围选择时结束日期的占位内容",
+      value: "结束时间",
+    },
+    format: {
+      desc: "显示在输入框中的格式",
+      value: "",
+    },
+    rule: {
+      desc: "rule",
+      value: [],
+    },
+    size: {
+      desc: "尺寸",
+      value: "large",
+    },
+    disabledDate: {
+      desc: "设置禁用日期",
+      value: (time) => {
+        return time.getTime() > Date.now();
+      },
+    },
+    shortcutOpt: {
+      desc: "shortcutOpt",
+      value: false,
+    },
+    unlinkPanels: {
+      desc: "unlinkPanels",
+      value: true,
+    },
+    val: {
+      desc: "val",
+      value: null,
+    },
   },
 ]);
 const list2 = ref([]);
