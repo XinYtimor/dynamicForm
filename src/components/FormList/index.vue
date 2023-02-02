@@ -6,7 +6,11 @@
       <el-button @click="ApplicationForm">应用表单</el-button>
     </div>
     <div class="config">
-      <el-dialog v-model="allData.formConfigVisible" title="配置项">
+      <el-dialog
+        :show-close="false"
+        v-model="allData.formConfigVisible"
+        title="配置项"
+      >
         <FormConfig :currentForm="currentFormConfig"></FormConfig>
       </el-dialog>
     </div>

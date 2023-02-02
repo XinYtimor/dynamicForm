@@ -432,7 +432,7 @@ const list1 = ref([
       desc: "rule",
       value: [],
     },
-    rule: {
+    val: {
       desc: "rule",
       val: null,
     },
@@ -646,7 +646,10 @@ const list1 = ref([
       desc: "低分和中等分数的界限值",
       value: 2,
     },
-    val: null,
+    val: {
+      desc: "",
+      value: null,
+    },
   },
   {
     id: {
