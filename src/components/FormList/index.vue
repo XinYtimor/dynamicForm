@@ -74,7 +74,7 @@ const commit = (formEl) => {
   width: 100vw;
   justify-content: space-around;
   .from {
-    width: 35vw;
+    width: 60vw;
   }
 }
 </style>

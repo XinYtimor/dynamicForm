@@ -46,6 +46,10 @@
               :disabled="element.disabled"
               :clearable="element.clearable"
               :placeholder="element.prompt_msg"
+              :maxlength="element.maxlength"
+              :minlength="element.minlength"
+              :show-word-limit="element.showWordLimit"
+              :readonly="element.readonly"
               :show-password="element.inputType === 'password' ? true : false"
             >
             </el-input>
@@ -182,10 +186,12 @@
               v-model="formLabelAlign[element.name]"
               :disabled="element.disabled"
               :size="element.size"
+              :width="element.width"
               :style="allData.switchStyle[element.id]"
               :inline-prompt="element.inlinePrompt"
               :active-text="element.activeText"
               :inactive-text="element.inactiveText"
+              :loading="element.loading"
             />
             <!-- 上传 -->
             <el-upload
@@ -237,6 +243,7 @@ const switchStyle = reactive({});
 const formLabelAlign = reactive({});
 const drag = ref(false);
 const list1 = ref([
+  //级联选择器
   {
     id: {
       desc: "id",
@@ -330,6 +337,7 @@ const list1 = ref([
       value: null,
     },
   },
+  //输入框
   {
     id: {
       desc: "id",
@@ -348,34 +356,47 @@ const list1 = ref([
       value: "输入框",
     },
     prompt_msg: {
-      desc: "默认内容",
+      desc: "占位文本",
       value: "请输入内容",
     },
     disabled: {
-      desc: "",
+      desc: "是否禁用",
       value: false,
     },
     clearable: {
-      desc: "",
+      desc: "是否显示清除按钮",
       value: true,
     },
     autosize: {
-      desc: "",
+      desc: "textarea 高度是否自适应",
       value: true,
     },
     inputType: {
-      desc: "",
+      desc: "是否显示切换密码图标",
       value: false,
     },
     rule: {
-      desc: "",
+      desc: "校验规则",
       value: [],
     },
-    val: {
-      desc: "",
-      value: null,
+    maxlength: {
+      desc: "最大输入长度",
+      value: 0,
+    },
+    minlength: {
+      desc: "最小输入长度",
+      value: 0,
+    },
+    showWordLimit: {
+      desc: "是否显示统计字数",
+      value: false,
+    },
+    readonly: {
+      desc: "是否只读",
+      value: false,
     },
   },
+  //上传
   {
     id: {
       desc: "id",
@@ -437,26 +458,27 @@ const list1 = ref([
       val: null,
     },
   },
+  //开关
   {
     id: {
       desc: "id",
       value: null,
     },
     name: {
-      desc: "name",
+      desc: "name 属性",
       value: "",
     },
     type: {
       desc: "类型",
       value: "switch",
     },
+    loading: {
+      desc: "是否显示加载中",
+      value: false,
+    },
     title: {
       desc: "标题",
       value: "开关",
-    },
-    prompt_msg: {
-      desc: "默认",
-      value: "",
     },
     inlinePrompt: {
       desc: "无论图标或文本是否显示在点内，只会呈现文本的第一个字符",
@@ -473,6 +495,11 @@ const list1 = ref([
     onColor: {
       desc: "当在 on 状态时的背景颜色",
       value: "#13ce66",
+    },
+    size: { desc: "switch 的大小", value: "" },
+    width: {
+      desc: "switch 的宽度",
+      value: "",
     },
     offColor: {
       desc: "当在 off 状态时的背景颜色",
@@ -491,6 +518,7 @@ const list1 = ref([
       value: null,
     },
   },
+  //多选框
   {
     id: {
       desc: "id",
@@ -511,10 +539,6 @@ const list1 = ref([
     title: {
       desc: "标题",
       value: "多选框",
-    },
-    prompt_msg: {
-      desc: "",
-      value: "",
     },
     min: {
       desc: "可被勾选的 checkbox 的最小数量",
@@ -825,6 +849,7 @@ const list1 = ref([
       desc: "按钮形式的 Radio 激活时的文本颜色",
       value: "#e94242",
     },
+
     radioOptions: {
       desc: "配置项",
       value: [
@@ -990,6 +1015,10 @@ const deleteFormItem = (e) => {
 </script>
 
 <style scoped lang="less">
+.drag2 {
+  width: 20vw;
+  border: 1px solid;
+}
 .drag-wrapper {
   display: flex;
   flex-direction: row;
