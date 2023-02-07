@@ -18,8 +18,8 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-
+import { reactive, ref, toRaw } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { setFormConfig, selectConfig, getRules } from "./index";
 import { globalData } from "../../store/globalData";
 const baseForm = ref(null);
@@ -27,14 +27,17 @@ const labelPosition = ref("top");
 const formLabelAlign = reactive({});
 const selectOption = ref("");
 const allData = globalData();
-
+const route = useRoute();
+const router = useRouter();
 let currentFormConfig = ref(null);
 const getCurrentFormConfig = (e) => {
   currentFormConfig.value = e;
   console.log("getCurrentFormConfig", e);
 };
 const ApplicationForm = () => {
-  console.log("allData应用", allData.formList);
+  console.log("allData应用", toRaw(allData.formList));
+  router.push({ name: "generateForm" });
+  // allData.confirmedFormList = allData.formList;
 };
 
 const shortcuts = [

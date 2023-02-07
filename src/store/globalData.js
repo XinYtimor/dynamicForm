@@ -6,6 +6,7 @@ export const globalData = defineStore("globalData", {
       formConfigVisible: false,
       currentFormConfigByPinia: {},
       switchStyle: {},
+      confirmedFormList: [],
     };
   },
   actions: {},
