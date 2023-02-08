@@ -1,4 +1,7 @@
-<template><FormList> </FormList></template>
+<template>
+  <!-- <RouterView></RouterView> -->
+  <router-view></router-view>
+</template>
 
 <script setup>
 import { reactive, ref } from "vue";
