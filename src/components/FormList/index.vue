@@ -36,6 +36,7 @@ const getCurrentFormConfig = (e) => {
 };
 const ApplicationForm = () => {
   console.log("allData应用", toRaw(allData.formList));
+
   router.push({ name: "generateForm" });
   // allData.confirmedFormList = allData.formList;
 };
