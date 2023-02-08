@@ -1,5 +1,5 @@
 <template>
-  <h1>generate</h1>
+  <h1>generateList</h1>
 </template>
 
 <script setup>
